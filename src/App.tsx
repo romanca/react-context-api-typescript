@@ -1,26 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { TodoList } from './TodoList';
+import { AddTodoForm } from './AddTodoForm';
+import TodoProvider from './TodoProvider';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<TodoProvider>
+			<div>
+				<main style={{ display: 'flex' }}>
+					<section>
+						<AddTodoForm />
+					</section>
+					<section style={{ marginLeft: 20 }}>
+						<header style={{ marginLeft: 10 }}>
+							<h1>Taskslist</h1>
+						</header>
+
+						<TodoList />
+					</section>
+				</main>
+			</div>
+		</TodoProvider>
+	);
 }
 
 export default App;
