@@ -24,7 +24,7 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 		setValue(e.target.value);
 	};
 
-	const handleSubmit = () => {
+	const handleEditDone = () => {
 		handleTodoEdit({
 			...todo,
 			text: value,
@@ -171,7 +171,7 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 								fontSize: '0.8em',
 								padding: 5,
 							}}
-							onClick={handleSubmit}>
+							onClick={handleEditDone}>
 							SUBMIT
 						</button>
 						<button

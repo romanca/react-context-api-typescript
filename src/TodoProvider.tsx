@@ -14,7 +14,6 @@ const initialTodos: Todo[] = [];
 
 const TodoProvider: React.FC = ({ children }) => {
 	const [todos, setTodos] = useState(initialTodos);
-	const [open, setOpen] = useState(false);
 
 	const addTodo = (text: string) => {
 		const newTodo = { text, complete: false, id: Date.now() };
