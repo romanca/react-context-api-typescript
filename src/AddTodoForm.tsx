@@ -1,5 +1,32 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { useTodoActions } from './TodoProvider';
+
+const Input = styled.input`
+	border: 1px solid black;
+	width: 100%;
+	height: 30px;
+	outline: none;
+	border-radius: 10px;
+`;
+
+const Button = styled.button`
+	height: 30px;
+	width: 100%;
+	color: white;
+	background: green;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	border-radius: 10px;
+`;
+
+const TodoFormContainer = styled.div`
+	flex-direction: row;
+	background: red;
+	width: 30%;
+	padding: 5px 5px 5px 5px;
+`;
 
 export const AddTodoForm = () => {
 	const { addTodo } = useTodoActions();
@@ -8,8 +35,8 @@ export const AddTodoForm = () => {
 
 	return (
 		<form>
-			<div>
-				<input
+			<TodoFormContainer>
+				<Input
 					type='text'
 					placeholder='Add Todo'
 					value={text}
@@ -18,7 +45,7 @@ export const AddTodoForm = () => {
 					}}
 				/>
 
-				<button
+				<Button
 					type='submit'
 					onClick={(e) => {
 						e.preventDefault();
@@ -26,9 +53,9 @@ export const AddTodoForm = () => {
 						console.log(text);
 						setText('');
 					}}>
-					Add Todo
-				</button>
-			</div>
+					X
+				</Button>
+			</TodoFormContainer>
 		</form>
 	);
 };

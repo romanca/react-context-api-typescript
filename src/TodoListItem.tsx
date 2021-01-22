@@ -6,7 +6,7 @@ interface IProps {
 }
 
 export const TodoListItem: React.FC<IProps> = ({ todo }) => {
-	const { removeTodo, handleTodoEdit, completeTodo } = useTodoActions();
+	const { removeTodo, editTodo, completeTodo } = useTodoActions();
 	const [open, setOpen] = useState(false);
 	const [value, setValue] = useState('');
 
@@ -25,13 +25,12 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 	};
 
 	const handleEditDone = () => {
-		handleTodoEdit({
+		editTodo({
 			...todo,
 			text: value,
 		});
 
 		toggleTodo();
-		console.log(todo);
 	};
 
 	return (

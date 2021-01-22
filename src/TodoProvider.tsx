@@ -5,7 +5,7 @@ export interface IContext {
 	todos: Todo[];
 	addTodo: (text: string) => void;
 	removeTodo: (id: number) => void;
-	handleTodoEdit: (todo: Todo) => void;
+	editTodo: (todo: Todo) => void;
 	completeTodo: (selectedTodo: Todo) => void;
 	getTodoById: (id: Todo) => void;
 }
@@ -24,7 +24,7 @@ const TodoProvider: React.FC = ({ children }) => {
 		setTodos((current) => current.filter((todo) => todo.id !== id));
 	};
 
-	const handleTodoEdit = (todo: Todo) => {
+	const editTodo = (todo: Todo) => {
 		setTodos((current) =>
 			current.map((i) => {
 				if (i.id === todo.id) {
@@ -57,7 +57,7 @@ const TodoProvider: React.FC = ({ children }) => {
 				todos,
 				addTodo,
 				removeTodo,
-				handleTodoEdit,
+				editTodo,
 				completeTodo,
 				getTodoById,
 			}}>
@@ -70,12 +70,12 @@ export const useTodoActions = () => {
 	const {
 		addTodo,
 		removeTodo,
-		handleTodoEdit,
+		editTodo,
 		completeTodo,
 		getTodoById,
 	} = React.useContext(Context) as IContext;
 
-	return { addTodo, removeTodo, handleTodoEdit, completeTodo, getTodoById };
+	return { addTodo, removeTodo, editTodo, completeTodo, getTodoById };
 };
 export const useTodos = () => {
 	const { todos } = React.useContext(Context) as IContext;

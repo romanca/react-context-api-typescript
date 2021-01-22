@@ -4,10 +4,7 @@ interface Todo {
 	id: nubmer
  
 }
-// interface TodosContextState  {
-// 	todos: string[];
-// 	addTodo: (name: string) => void;
-//   };
+ 
  
  
    
