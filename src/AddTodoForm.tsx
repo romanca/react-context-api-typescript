@@ -4,28 +4,29 @@ import { useTodoActions } from './TodoProvider';
 
 const Input = styled.input`
 	border: 1px solid black;
-	width: 100%;
 	height: 30px;
 	outline: none;
-	border-radius: 10px;
+	border-radius: 5px;
+	width: 80%;
 `;
 
 const Button = styled.button`
 	height: 30px;
-	width: 100%;
+	width: 30px;
 	color: white;
 	background: green;
 	border: none;
 	outline: none;
 	cursor: pointer;
-	border-radius: 10px;
+	border-radius: 50%;
+	font-size: 15px;
+	margin-left: 5px;
 `;
 
 const TodoFormContainer = styled.div`
 	flex-direction: row;
-	background: red;
-	width: 30%;
-	padding: 5px 5px 5px 5px;
+	width: 350px;
+	padding: 5px;
 `;
 
 export const AddTodoForm = () => {
@@ -50,10 +51,9 @@ export const AddTodoForm = () => {
 					onClick={(e) => {
 						e.preventDefault();
 						addTodo(text);
-						console.log(text);
 						setText('');
 					}}>
-					X
+					+
 				</Button>
 			</TodoFormContainer>
 		</form>
