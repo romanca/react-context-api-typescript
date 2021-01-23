@@ -1,50 +1,14 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+
 import { useTodoActions } from './TodoProvider';
+import { GreenButton, RedButton } from './StyledComponents';
+import {
+	Container,
+	TodoListContainer,
+	CheckBox,
+	Input,
+} from './StyledComponents';
 
-const Container = styled.div`
-	padding: 15px;
-	margin-bottom: 15px;
-	border-radius: 5px;
-	list-style: none;
-	border: 1px solid black;
-`;
-const TodoListContainer = styled.div`
-	display: flex;
-	width: 100%;
-`;
-const CheckBox = styled.input`
-	margin-top: auto;
-	margin-bottom: auto;
-`;
-
-const Input = styled.input`
-	height: 30px;
-	outline: none;
-	width: 600px;
-	border: none;
-	outline: none;
-	background: transparent;
-	border-bottom: 1px solid black;
-`;
-const SubmitEditButton = styled.button`
-	border-radius: 50%;
-	width: 50px;
-	height: 50px;
-	outline: none;
-	border: none;
-	background-color: green;
-	margin-left: 5px;
-`;
-
-const DeleteCancelButton = styled.button`
-	border-radius: 50%;
-	width: 50px;
-	height: 50px;
-	outline: none;
-	border: none;
-	background-color: tomato;
-`;
 interface IProps {
 	todo: Todo;
 }
@@ -99,13 +63,13 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 							{todo.text}
 						</div>
 					</TodoListContainer>
-					<DeleteCancelButton
+					<RedButton
 						onClick={() => {
 							removeTodo(todo.id);
 						}}>
 						X
-					</DeleteCancelButton>
-					<SubmitEditButton onClick={toggleTodo}>EDIT</SubmitEditButton>
+					</RedButton>
+					<GreenButton onClick={toggleTodo}>EDIT</GreenButton>
 				</div>
 			) : (
 				<div style={{ display: 'flex' }}>
@@ -123,12 +87,13 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 								marginBottom: 'auto',
 								marginTop: 'auto',
 								paddingLeft: 5,
+								width: '90%',
 							}}>
 							<Input type='text' value={value} onChange={handleChange} />
 						</div>
 					</TodoListContainer>
-					<SubmitEditButton onClick={handleEditDone}>+</SubmitEditButton>
-					<DeleteCancelButton onClick={toggleTodo}>X</DeleteCancelButton>
+					<RedButton onClick={toggleTodo}>X</RedButton>
+					<GreenButton onClick={handleEditDone}>+</GreenButton>
 				</div>
 			)}
 		</Container>
