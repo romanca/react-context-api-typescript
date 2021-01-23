@@ -1,6 +1,50 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
 import { useTodoActions } from './TodoProvider';
 
+const Container = styled.div`
+	padding: 15px;
+	margin-bottom: 15px;
+	border-radius: 5px;
+	list-style: none;
+	border: 1px solid black;
+`;
+const TodoListContainer = styled.div`
+	display: flex;
+	width: 100%;
+`;
+const CheckBox = styled.input`
+	margin-top: auto;
+	margin-bottom: auto;
+`;
+
+const Input = styled.input`
+	height: 30px;
+	outline: none;
+	width: 600px;
+	border: none;
+	outline: none;
+	background: transparent;
+	border-bottom: 1px solid black;
+`;
+const SubmitEditButton = styled.button`
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	outline: none;
+	border: none;
+	background-color: green;
+	margin-left: 5px;
+`;
+
+const DeleteCancelButton = styled.button`
+	border-radius: 50%;
+	width: 50px;
+	height: 50px;
+	outline: none;
+	border: none;
+	background-color: tomato;
+`;
 interface IProps {
 	todo: Todo;
 }
@@ -34,169 +78,59 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 	};
 
 	return (
-		<div style={{ padding: 5 }}>
+		<Container>
 			{!open ? (
-				<div
-					style={{
-						display: 'flex',
-						width: '100%',
-						border: '1px solid black',
-						padding: 5,
-						borderRadius: 10,
-					}}>
-					<input
-						style={{ marginTop: 'auto', marginBottom: 'auto' }}
-						type='checkbox'
-						defaultChecked={todo.complete}
-						onClick={() => {
-							completeTodo(todo);
-						}}
-					/>
-					<div style={{ flexDirection: 'row', paddingLeft: 5 }}>
-						<h5 style={{ fontWeight: 800, fontSize: 12 }}>Title</h5>
-						<label
+				<div style={{ display: 'flex' }}>
+					<TodoListContainer>
+						<CheckBox
+							type='checkbox'
+							defaultChecked={todo.complete}
+							onClick={() => {
+								completeTodo(todo);
+							}}
+						/>
+						<div
 							style={{
 								textDecoration: todo.complete ? 'line-through' : undefined,
+								marginBottom: 'auto',
+								marginTop: 'auto',
+								paddingLeft: 5,
 							}}>
-							<div
-								style={{
-									minWidth: 500,
-									maxWidth: 500,
-									overflow: 'scroll',
-								}}>
-								{todo.text}
-							</div>
-						</label>
-					</div>
-					<div style={{ backgroundColor: 'white' }}>
-						<button
-							style={{
-								background: 'tomato',
-								paddingTop: 5,
-								paddingBottom: 5,
-								color: 'white',
-								borderRadius: 4,
-								border: '#27ae60 1px solid',
-								borderBottom: 'green 2px solid',
-								marginTop: 10,
-								float: 'left',
-								marginLeft: 5,
-								fontWeight: 800,
-								fontSize: '0.8em',
-								padding: 5,
-							}}
-							onClick={() => {
-								removeTodo(todo.id);
-							}}>
-							REMOVE
-						</button>
-						<button
-							style={{
-								background: 'green',
-								paddingTop: 5,
-								paddingBottom: 5,
-								color: 'white',
-								borderRadius: 4,
-								border: '#27ae60 1px solid',
-								borderBottom: 'green 2px solid',
-								marginTop: 10,
-								float: 'left',
-								marginLeft: 5,
-								fontWeight: 800,
-								fontSize: '0.8em',
-								padding: 5,
-							}}
-							onClick={toggleTodo}>
-							EDIT
-						</button>
-					</div>
+							{todo.text}
+						</div>
+					</TodoListContainer>
+					<DeleteCancelButton
+						onClick={() => {
+							removeTodo(todo.id);
+						}}>
+						X
+					</DeleteCancelButton>
+					<SubmitEditButton onClick={toggleTodo}>EDIT</SubmitEditButton>
 				</div>
 			) : (
-				<div
-					style={{
-						display: 'flex',
-						width: '100%',
-						border: '1px solid black',
-						padding: 5,
-						borderRadius: 10,
-					}}>
-					<input
-						style={{ marginTop: 'auto', marginBottom: 'auto' }}
-						type='checkbox'
-						defaultChecked={todo.complete}
-						onClick={() => {
-							completeTodo(todo);
-						}}
-					/>
-					<div style={{ flexDirection: 'row', paddingLeft: 5 }}>
-						<h5 style={{ fontWeight: 800, fontSize: 12 }}>Title</h5>
-						<label
+				<div style={{ display: 'flex' }}>
+					<TodoListContainer>
+						<CheckBox
+							type='checkbox'
+							defaultChecked={todo.complete}
+							onClick={() => {
+								completeTodo(todo);
+							}}
+						/>
+						<div
 							style={{
 								textDecoration: todo.complete ? 'line-through' : undefined,
+								marginBottom: 'auto',
+								marginTop: 'auto',
+								paddingLeft: 5,
 							}}>
-							<div
-								style={{
-									minWidth: 500,
-									maxWidth: 500,
-									overflow: 'scroll',
-								}}>
-								<input
-									type='text'
-									value={value}
-									onChange={handleChange}
-									style={{
-										borderBottom: '1px solid black',
-										minWidth: 500,
-										maxWidth: 500,
-									}}
-								/>
-							</div>
-						</label>
-					</div>
-					<div style={{ backgroundColor: 'white' }}>
-						<button
-							style={{
-								background: 'green',
-								paddingTop: 5,
-								paddingBottom: 5,
-								color: 'white',
-								borderRadius: 4,
-								border: '#27ae60 1px solid',
-								borderBottom: 'green 2px solid',
-								marginTop: 10,
-								float: 'left',
-								marginLeft: 5,
-								fontWeight: 800,
-								fontSize: '0.8em',
-								padding: 5,
-							}}
-							onClick={handleEditDone}>
-							SUBMIT
-						</button>
-						<button
-							style={{
-								background: 'tomato',
-								paddingTop: 5,
-								paddingBottom: 5,
-								color: 'white',
-								borderRadius: 4,
-								border: '#27ae60 1px solid',
-								borderBottom: 'red 2px solid',
-								marginTop: 10,
-								float: 'left',
-								marginLeft: 5,
-								fontWeight: 800,
-								fontSize: '0.8em',
-								padding: 5,
-							}}
-							onClick={toggleTodo}>
-							CANCEL
-						</button>
-					</div>
+							<Input type='text' value={value} onChange={handleChange} />
+						</div>
+					</TodoListContainer>
+					<SubmitEditButton onClick={handleEditDone}>+</SubmitEditButton>
+					<DeleteCancelButton onClick={toggleTodo}>X</DeleteCancelButton>
 				</div>
 			)}
-		</div>
+		</Container>
 	);
 };
-
-// TODO if todo is completed it cannot be edited

@@ -8,7 +8,13 @@ const App = () => {
 	return (
 		<TodoProvider>
 			<Theme>
-				<div>
+				<div
+					style={{
+						border: '1px solid black',
+						width: 800,
+						height: 700,
+						padding: 10,
+					}}>
 					<AddTodoForm />
 					<TodoList />
 				</div>
