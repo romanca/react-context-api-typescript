@@ -3,6 +3,8 @@ import { TodoList } from './Components/TodoList';
 import { AddTodoForm } from './Components/AddTodoForm';
 import TodoProvider from './Providers/TodoProvider';
 import Theme from './Providers/ThemeProvider';
+import { AddCategoryForm } from './Components/AddCategoryForm';
+import { CategoryList } from './Components/CategoryList';
 
 const App = () => {
 	return (
@@ -14,9 +16,17 @@ const App = () => {
 						width: 800,
 						height: 700,
 						padding: 10,
+						display: 'flex',
 					}}>
-					<AddTodoForm />
-					<TodoList />
+					{/* <AddTodoForm />
+					<TodoList /> */}
+					<div>
+						<AddCategoryForm />
+						<CategoryList />
+					</div>
+					<div>
+						<TodoList />
+					</div>
 				</div>
 			</Theme>
 		</TodoProvider>
