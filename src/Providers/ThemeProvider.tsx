@@ -1,5 +1,5 @@
 import React from 'react';
-import { theme } from './theme';
+import { theme } from '../shared/theme';
 import { ThemeProvider } from 'styled-components';
 
 interface IProps {
