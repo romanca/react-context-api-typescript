@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-
 import { TodoFormContainer, GreenButton, Input } from './StyledComponents';
-import { useCategoryActions } from '../Providers/TodoProvider';
+import { useLabelActions } from '../Providers/TodoProvider';
 
-export const AddCategoryForm = () => {
-	const { addCategory } = useCategoryActions();
-
+export const AddLabelForm = () => {
+	const { addLabel } = useLabelActions();
 	const [title, setTitle] = useState('');
 
 	return (
@@ -13,7 +11,7 @@ export const AddCategoryForm = () => {
 			<TodoFormContainer>
 				<Input
 					type='title'
-					placeholder='Add Todo'
+					placeholder='Add label'
 					value={title}
 					onChange={(e) => {
 						setTitle(e.target.value);
@@ -24,7 +22,7 @@ export const AddCategoryForm = () => {
 					type='submit'
 					onClick={(e) => {
 						e.preventDefault();
-						addCategory(title);
+						addLabel(title);
 						setTitle('');
 					}}>
 					+

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import Icon from '../Icon/Icon';
 import { useTodoActions } from '../Providers/TodoProvider';
 import { TodoFormContainer, GreenButton, Input } from './StyledComponents';
 
 export const AddTodoForm = () => {
 	const { addTodo } = useTodoActions();
-
 	const [text, setText] = useState('');
 
 	return (
@@ -26,7 +26,7 @@ export const AddTodoForm = () => {
 						addTodo(text);
 						setText('');
 					}}>
-					+
+					<Icon name='plus' color='green' />
 				</GreenButton>
 			</TodoFormContainer>
 		</form>

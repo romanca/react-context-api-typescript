@@ -3,35 +3,42 @@ import Context from './Context';
 
 export interface IContext {
 	todos: Todo[];
-	categories: Category[];
+	labels: Label[];
 	addTodo: (text: string) => void;
-	addCategory: (title: string) => void;
+	addLabel: (title: string) => void;
+	removeLabel: (id: number) => void;
 	removeTodo: (id: number) => void;
 	editTodo: (todo: Todo) => void;
+	editLabel: (label: Label) => void;
 	completeTodo: (selectedTodo: Todo) => void;
 	getTodoById: (id: Todo) => void;
-	selected?: Category;
-	handleSelected: (category: Category) => void;
+	selected?: Label;
+	handleSelected: (label: Label) => void;
 }
 
 const initialTodos: Todo[] = [];
-const initialCategories: Category[] = [];
+const initialLabels: Label[] = [];
 
 const TodoProvider: React.FC = ({ children }) => {
 	const [todos, setTodos] = useState(initialTodos);
-	const [categories, setCategories] = useState(initialCategories);
-	const [selected, setSelected] = useState<Category>();
+	const [labels, setLabels] = useState(initialLabels);
+	const [selectedLabelId, setSelected] = useState<number>();
 
-	const handleSelected = (category: Category) => {
-		setSelected(category);
+	const selected = React.useMemo(
+		() => labels.find((i) => i.id === selectedLabelId),
+		[labels, selectedLabelId],
+	);
+
+	const handleSelected = (label: Label) => {
+		setSelected(label.id);
 	};
 
-	const addCategory = (title: string) => {
-		const newCategory = {
+	const addLabel = (title: string) => {
+		const newLabel = {
 			title,
 			id: Date.now(),
 		};
-		setCategories((current) => [...current, newCategory]);
+		setLabels((current) => [...current, newLabel]);
 	};
 
 	const addTodo = (text: string) => {
@@ -51,6 +58,10 @@ const TodoProvider: React.FC = ({ children }) => {
 		setTodos((current) => current.filter((todo) => todo.id !== id));
 	};
 
+	const removeLabel = (id: number) => {
+		setLabels((current) => current.filter((label) => label.id !== id));
+	};
+
 	const editTodo = (todo: Todo) => {
 		setTodos((current) =>
 			current.map((i) => {
@@ -61,17 +72,29 @@ const TodoProvider: React.FC = ({ children }) => {
 			}),
 		);
 	};
+
+	const editLabel = (label: Label) => {
+		setLabels((current) =>
+			current.map((i) => {
+				if (i.id === label.id) {
+					return label;
+				}
+				return i;
+			}),
+		);
+	};
 	const completeTodo = (selectedTodo: Todo) => {
-		const newTodos = todos.map((todo) => {
-			if (todo === selectedTodo) {
-				return {
-					...todo,
-					complete: !todo.complete,
-				};
-			}
-			return todo;
-		});
-		setTodos(newTodos);
+		setTodos((current) =>
+			current.map((todo) => {
+				if (todo === selectedTodo) {
+					return {
+						...todo,
+						complete: !todo.complete,
+					};
+				}
+				return todo;
+			}),
+		);
 	};
 
 	const getTodoById = (id: Todo) => {
@@ -82,13 +105,15 @@ const TodoProvider: React.FC = ({ children }) => {
 		<Context.Provider
 			value={{
 				todos,
-				categories,
+				labels,
 				selected,
 				handleSelected,
 				addTodo,
-				addCategory,
+				addLabel,
 				removeTodo,
+				removeLabel,
 				editTodo,
+				editLabel,
 				completeTodo,
 				getTodoById,
 			}}>
@@ -114,16 +139,20 @@ export const useTodoActions = () => {
 		getTodoById,
 	};
 };
-export const useCategoryActions = () => {
-	const { addCategory, selected, handleSelected } = React.useContext(
-		Context,
-	) as IContext;
-
-	return { addCategory, selected, handleSelected };
+export const useLabelActions = () => {
+	const {
+		addLabel,
+		removeLabel,
+		editLabel,
+		selected,
+		handleSelected,
+	} = React.useContext(Context) as IContext;
+	return { addLabel, removeLabel, editLabel, selected, handleSelected };
 };
-export const useCategories = () => {
-	const { categories } = React.useContext(Context) as IContext;
-	return { categories };
+
+export const useLabels = () => {
+	const { labels } = React.useContext(Context) as IContext;
+	return { labels };
 };
 
 export const useTodos = () => {

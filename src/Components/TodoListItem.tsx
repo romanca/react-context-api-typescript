@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Icon from '../Icon/Icon';
 
 import { useTodoActions } from '../Providers/TodoProvider';
 import { GreenButton, RedButton } from './StyledComponents';
@@ -67,9 +68,11 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 						onClick={() => {
 							removeTodo(todo.id);
 						}}>
-						X
+						<Icon name='remove' />
 					</RedButton>
-					<GreenButton onClick={toggleTodo}>EDIT</GreenButton>
+					<GreenButton onClick={toggleTodo}>
+						<Icon name='edit' />
+					</GreenButton>
 				</div>
 			) : (
 				<div style={{ display: 'flex' }}>
@@ -92,8 +95,10 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 							<Input type='text' value={value} onChange={handleChange} />
 						</div>
 					</TodoListContainer>
-					<RedButton onClick={toggleTodo}>X</RedButton>
-					<GreenButton onClick={handleEditDone}>+</GreenButton>
+					<RedButton onClick={toggleTodo}>x</RedButton>
+					<GreenButton onClick={handleEditDone}>
+						<Icon name='edit' />
+					</GreenButton>
 				</div>
 			)}
 		</Container>

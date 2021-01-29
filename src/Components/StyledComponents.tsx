@@ -24,25 +24,31 @@ export const Input = styled.input`
 	outline: none;
 	background: transparent;
 	border-bottom: 1px solid black;
+	padding-left: 5px;
+	margin-left: 5px;
+	font-size: 17px;
+	color: teal;
 `;
 
 export const GreenButton = styled.button`
 	height: 30px;
 	width: 30px;
-	color: ${(props) => props.theme.powderWhite};
-	background: green;
+	// color: ${(props) => props.theme.defaultBlack};
+	color: green;
+	background: none;
 	border: none;
 	outline: none;
 	cursor: pointer;
 	border-radius: 50%;
-	font-size: ${({ theme: { fontSizes } }) => fontSizes.small};
+	font-size: 20px;
 	margin-left: 5px;
 `;
 export const RedButton = styled.button`
 	height: 30px;
 	width: 30px;
-	color: ${(props) => props.theme.powderWhite};
-	background: tomato;
+	// color: ${(props) => props.theme.defaultBlack};
+	color: red;
+	background: none;
 	border: none;
 	outline: none;
 	cursor: pointer;
@@ -52,7 +58,5 @@ export const RedButton = styled.button`
 `;
 
 export const TodoFormContainer = styled.div`
-	display: flex;
-	width: 350px;
 	padding: 5px;
 `;
