@@ -19,6 +19,16 @@ export function createTodo(todo: Omit<Todo, 'id'>): Promise<Todo> {
     }, [])
     return Promise.resolve(newTodo)
 }
+export function createLabel(label:Omit<Label, 'id'>): Promise<Label> {
+    const newLabel = {
+        ...label,
+        id: Date.now()
+    }
+    updateLsItem(TODOS_LS_KEY, current => {
+        return [...current, newLabel]
+    }, [])
+    return Promise.resolve(newLabel)
+}
 
 export function editTodo(todo: Todo): Promise<Todo> {
 

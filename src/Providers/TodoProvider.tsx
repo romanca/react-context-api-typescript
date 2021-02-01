@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Context from './Context';
+import { createLabel as createLabelApi } from '../Api/index';
 
 export interface IContext {
 	todos: Todo[];
@@ -33,12 +34,13 @@ const TodoProvider: React.FC = ({ children }) => {
 		setSelected(label.id);
 	};
 
-	const addLabel = (title: string) => {
-		const newLabel = {
-			title,
-			id: Date.now(),
-		};
-		setLabels((current) => [...current, newLabel]);
+	const addLabel = async (title: string) => {
+		await createLabelApi;
+		// const newLabel = {
+		// 	title,
+		// 	id: Date.now(),
+		// };
+		// setLabels((current) => [...current, newLabel]);
 	};
 
 	const addTodo = (text: string) => {
@@ -50,7 +52,6 @@ const TodoProvider: React.FC = ({ children }) => {
 				categoryId: selected.id,
 			};
 			setTodos((current) => [...current, newTodo]);
-			console.log(newTodo);
 		}
 	};
 
