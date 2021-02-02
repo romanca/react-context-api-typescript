@@ -1,5 +1,6 @@
 import React, { createContext, useState } from 'react';
 import { AddLabelForm } from '../Components/AddLabelForm';
+import { AddTodoForm } from '../Components/AddTodoForm';
 import ModalDialog from '../Modal/Modal';
 
 interface IProps {
@@ -35,18 +36,19 @@ const ModalProvider: React.FC<IProps> = ({ children }) => {
 export const useModal = () =>
 	React.useContext(ModalContext) as Required<IProps>;
 
-export const useConfirmDialog = () => {
+export const useLabelConfirmDialog = () => {
 	const { setDialog } = useModal();
 
 	return () => {
 		setDialog(<AddLabelForm />);
 	};
 };
-// export const useModalActions = () => {
-// 	const { closeModalDialog } = React.useContext(
-// 		ModalContext,
-// 	) as Required<IProps>;
-// 	return { closeModalDialog };
-// };
+export const useTodoConfirmDialog = () => {
+	const { setDialog } = useModal();
+
+	return () => {
+		setDialog(<AddTodoForm />);
+	};
+};
 
 export default ModalProvider;

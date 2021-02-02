@@ -13,10 +13,12 @@ import {
 	completeTodo as completeTodoApi,
 } from '../Api/index';
 
+
+
 export interface IContext {
 	todos: Todo[];
 	labels: Label[];
-	addTodo: (text: string) => void;
+	addTodo: (text: string, description: string, priority: string) => void;
 	addLabel: (title: string) => void;
 	removeLabel: (id: number) => void;
 	removeTodo: (id: number) => void;
@@ -26,6 +28,7 @@ export interface IContext {
 	getTodoById: (id: Todo) => void;
 	selected?: Label;
 	handleSelected: (label: Label) => void;
+	selectedPriority?: any;
 }
 
 const initialTodos: Todo[] = [];
@@ -73,14 +76,21 @@ const TodoProvider: React.FC = ({ children }) => {
 		bootstrap();
 	};
 
-	const addTodo = async (text: string) => {
+	const addTodo = async (
+		text: string,
+		description: string,
+		priority: string,
+	) => {
 		if (selected) {
 			const newTodo = {
 				text,
+				description,
 				complete: false,
 				id: Date.now(),
 				categoryId: selected.id,
+				priority,
 			};
+			console.log(newTodo);
 			await createTodoApi(newTodo);
 			bootstrap();
 		}

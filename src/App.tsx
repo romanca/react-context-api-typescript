@@ -3,7 +3,6 @@ import { TodoList } from './Components/TodoList';
 import TodoProvider from './Providers/TodoProvider';
 import Theme from './Providers/ThemeProvider';
 import { LabelList } from './Components/LabelList';
-import { AddTodoForm } from './Components/AddTodoForm';
 import ModalProvider from './Providers/ModalProvider';
 import styled from 'styled-components';
 
@@ -12,7 +11,6 @@ const MainContainer = styled.div`
 	height: 700px;
 	padding: 10;
 	display: flex;
-	background: red;
 	margin-top: 20px;
 `;
 const SideBar = styled.div`
@@ -40,8 +38,6 @@ const App = () => {
 						</SideBar>
 						<TodosContainer>
 							<TodoList />
-
-							<AddTodoForm />
 						</TodosContainer>
 					</MainContainer>
 				</Theme>

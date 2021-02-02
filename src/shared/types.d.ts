@@ -1,8 +1,10 @@
 interface Todo {
 	text: string
+	description: string
 	complete: boolean
 	id: nubmer
-    categoryId: number
+	categoryId: number
+	priority: string
 }
 interface Label {
 	title: string

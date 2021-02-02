@@ -17,26 +17,39 @@ interface IProps {
 export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 	const { removeTodo, editTodo, completeTodo } = useTodoActions();
 	const [open, setOpen] = useState(false);
-	const [value, setValue] = useState('');
+	const [todoTitle, setTodoTitle] = useState('');
+	const [todoDescription, setTodoDescription] = useState('');
+	const [todoPriority, setTodoPriority] = useState('');
 
 	const toggleTodo = () => {
 		setOpen((current) => {
 			if (!current) {
-				setValue(todo.text);
+				setTodoTitle(todo.text);
+				setTodoDescription(todo.description);
+				setTodoPriority(todo.priority);
 			} else {
-				setValue('');
+				setTodoTitle('');
+				setTodoDescription('');
+				setTodoPriority('');
 			}
 			return !current;
 		});
 	};
 	const handleChange = (e: any) => {
-		setValue(e.target.value);
+		setTodoTitle(e.target.value);
 	};
-
+	const handleTitleChange = (e: any) => {
+		setTodoDescription(e.target.value);
+	};
+	const handlePriorityChange = (e: any) => {
+		setTodoPriority(e.target.value);
+	};
 	const handleEditDone = () => {
 		editTodo({
 			...todo,
-			text: value,
+			text: todoTitle,
+			description: todoDescription,
+			priority: todoPriority,
 		});
 
 		toggleTodo();
@@ -60,8 +73,23 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 								marginBottom: 'auto',
 								marginTop: 'auto',
 								paddingLeft: 5,
+								flexDirection: 'row',
+								background: 'red',
+								padding: 10,
+								msFlexDirection: 'row',
 							}}>
-							{todo.text}
+							<label>
+								<b>title</b>
+							</label>
+							<div>{todo.text}</div>
+							<label>
+								<b>description</b>
+							</label>
+							<div>{todo.description}</div>
+							<label>
+								<b>priority</b>
+							</label>
+							<div>{todo.priority}</div>
 						</div>
 					</TodoListContainer>
 					<RedButton
@@ -92,7 +120,17 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 								paddingLeft: 5,
 								width: '90%',
 							}}>
-							<Input type='text' value={value} onChange={handleChange} />
+							<Input type='text' value={todoTitle} onChange={handleChange} />
+							<Input
+								type='text'
+								value={todoDescription}
+								onChange={handleTitleChange}
+							/>
+							<select value={todoPriority} onChange={handlePriorityChange}>
+								<option>Low</option>
+								<option>Medium</option>
+								<option>High</option>
+							</select>
 						</div>
 					</TodoListContainer>
 					<RedButton onClick={toggleTodo}>x</RedButton>
