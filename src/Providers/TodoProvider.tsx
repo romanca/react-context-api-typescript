@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import Context from './Context';
+
 import {
-	createLabel as createLabelApi,
 	getLabels,
+	getTodos,
+	createTodo as createTodoApi,
+	createLabel as createLabelApi,
 	removeLabel as removeLabelApi,
+	editLabel as editLabelApi,
+	removeTodo as removeTodoApi,
+	editTodo as editTodoApi,
+	completeTodo as completeTodoApi,
 } from '../Api/index';
 
 export interface IContext {
@@ -32,20 +39,17 @@ const TodoProvider: React.FC = ({ children }) => {
 	const bootstrap = React.useCallback(async () => {
 		try {
 			const labels = await getLabels();
+			const todos = await getTodos();
+			setTodos(todos);
 			setLabels(labels);
 		} catch (error) {
 			// TODO handle error
 		}
-	}, [setLabels]);
+	}, [setLabels, setTodos]);
 
 	React.useEffect(() => {
 		bootstrap();
 	}, [bootstrap]);
-
-	// const addTodo = async (text: string) => {
-	// 	await createTodo({ text, complete: false });
-	// 	bootstrap();
-	// };
 
 	const selected = React.useMemo(
 		() => labels.find((i) => i.id === selectedLabelId),
@@ -64,18 +68,12 @@ const TodoProvider: React.FC = ({ children }) => {
 		await removeLabelApi(id);
 		bootstrap();
 	};
-	const editLabel = (label: Label) => {
-		// setLabels((current) =>
-		// 	current.map((i) => {
-		// 		if (i.id === label.id) {
-		// 			return label;
-		// 		}
-		// 		return i;
-		// 	}),
-		// );
+	const editLabel = async (label: Label) => {
+		await editLabelApi(label);
+		bootstrap();
 	};
 
-	const addTodo = (text: string) => {
+	const addTodo = async (text: string) => {
 		if (selected) {
 			const newTodo = {
 				text,
@@ -83,37 +81,23 @@ const TodoProvider: React.FC = ({ children }) => {
 				id: Date.now(),
 				categoryId: selected.id,
 			};
-			setTodos((current) => [...current, newTodo]);
+			await createTodoApi(newTodo);
+			bootstrap();
 		}
 	};
-
-	const removeTodo = (id: number) => {
-		setTodos((current) => current.filter((todo) => todo.id !== id));
+	const completeTodo = async (selectedTodo: Todo) => {
+		await completeTodoApi(selectedTodo);
+		bootstrap();
 	};
 
-	const editTodo = (todo: Todo) => {
-		setTodos((current) =>
-			current.map((i) => {
-				if (i.id === todo.id) {
-					return todo;
-				}
-				return i;
-			}),
-		);
+	const removeTodo = async (id: number) => {
+		await removeTodoApi(id);
+		bootstrap();
 	};
 
-	const completeTodo = (selectedTodo: Todo) => {
-		setTodos((current) =>
-			current.map((todo) => {
-				if (todo === selectedTodo) {
-					return {
-						...todo,
-						complete: !todo.complete,
-					};
-				}
-				return todo;
-			}),
-		);
+	const editTodo = async (todo: Todo) => {
+		await editTodoApi(todo);
+		bootstrap();
 	};
 
 	const getTodoById = (id: Todo) => {
