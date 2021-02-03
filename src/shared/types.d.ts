@@ -5,6 +5,7 @@ interface Todo {
 	id: nubmer
 	categoryId: number
 	priority: string
+	date: Date
 }
 interface Label {
 	title: string

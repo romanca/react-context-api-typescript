@@ -3,6 +3,7 @@ import Icon from '../Icon/Icon';
 
 import { useTodoActions } from '../Providers/TodoProvider';
 import { GreenButton, RedButton } from './StyledComponents';
+import { formatDateToTodoDate } from '../shared/date-formatter';
 import {
 	Container,
 	TodoListContainer,
@@ -90,6 +91,10 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 								<b>priority</b>
 							</label>
 							<div>{todo.priority}</div>
+							<label>
+								<b>time</b>
+							</label>
+							<div>{formatDateToTodoDate(todo.date)}</div>
 						</div>
 					</TodoListContainer>
 					<RedButton

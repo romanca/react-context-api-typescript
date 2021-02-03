@@ -24,10 +24,7 @@ export const Input = styled.input`
 	outline: none;
 	background: transparent;
 	border-bottom: 1px solid black;
-	padding-left: 5px;
-	margin-left: 5px;
 	font-size: 17px;
-	color: teal;
 `;
 
 export const GreenButton = styled.button`
@@ -58,5 +55,6 @@ export const RedButton = styled.button`
 `;
 
 export const TodoFormContainer = styled.div`
-	padding: 5px;
+	background: yellow;
+	padding: 15px;
 `;

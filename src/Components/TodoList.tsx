@@ -7,7 +7,7 @@ import { useTodoConfirmDialog } from '../Providers/ModalProvider';
 
 export const TodoList = () => {
 	const { todos } = useTodos();
-	const { selected } = useLabelActions();
+	const { selectedLabel } = useLabelActions();
 	const openModalDialog = useTodoConfirmDialog();
 
 	return (
@@ -18,7 +18,7 @@ export const TodoList = () => {
 					fontSize: 20,
 					textAlign: 'center',
 				}}>
-				{selected && selected.title}
+				{selectedLabel && selectedLabel.title}
 			</div>
 			<ModalButton onClick={openModalDialog}>
 				<Icon name='plus' />

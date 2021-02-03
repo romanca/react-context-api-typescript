@@ -24,10 +24,28 @@ const ModalDialog: React.FC<IProps> = ({
 	return (
 		<PopPop
 			open={visible}
-			contentStyle={{ width: 400 }}
+			contentStyle={{
+				transition: 'all 0.3s',
+				borderRadius: '3px',
+				zIndex: 2000,
+				position: 'relative',
+				boxShadow: '0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28)',
+			}}
 			closeModalDialog={closeModalDialog}>
 			{content && content}
-			<ModalButton onClick={closeModalDialog}>X</ModalButton>
+			<div style={{ marginTop: -25, background: 'green', width: 50 }}>
+				<button
+					style={{
+						width: 50,
+						height: 25,
+						background: 'red',
+						outline: 'none',
+						border: 'none',
+					}}
+					onClick={closeModalDialog}>
+					Close
+				</button>
+			</div>
 		</PopPop>
 	);
 };

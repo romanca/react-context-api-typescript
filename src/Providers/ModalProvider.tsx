@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, ReactNode, useState } from 'react';
 import { AddLabelForm } from '../Components/AddLabelForm';
 import { AddTodoForm } from '../Components/AddTodoForm';
 import ModalDialog from '../Modal/Modal';
@@ -24,7 +24,6 @@ const ModalProvider: React.FC<IProps> = ({ children }) => {
 	return (
 		<ModalContext.Provider value={{ setDialog }}>
 			{children}
-
 			<ModalDialog
 				closeModalDialog={closeModalDialog}
 				visible={visible}

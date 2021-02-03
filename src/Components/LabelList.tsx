@@ -10,7 +10,7 @@ export const LabelList = () => {
 	const openModalDialog = useLabelConfirmDialog();
 
 	const {
-		selected,
+		selectedLabel,
 		handleSelected,
 		removeLabel,
 		editLabel,
@@ -26,7 +26,7 @@ export const LabelList = () => {
 					label={label}
 					key={label.id}
 					handleSelected={handleSelected}
-					isSelected={selected === label}
+					isSelected={selectedLabel === label}
 					removeLabel={removeLabel}
 					editLabel={editLabel}
 				/>

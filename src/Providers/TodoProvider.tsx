@@ -13,12 +13,15 @@ import {
 	completeTodo as completeTodoApi,
 } from '../Api/index';
 
-
-
 export interface IContext {
 	todos: Todo[];
 	labels: Label[];
-	addTodo: (text: string, description: string, priority: string) => void;
+	addTodo: (
+		text: string,
+		description: string,
+		priority: string,
+		date: Date,
+	) => void;
 	addLabel: (title: string) => void;
 	removeLabel: (id: number) => void;
 	removeTodo: (id: number) => void;
@@ -26,7 +29,7 @@ export interface IContext {
 	editLabel: (label: Label) => void;
 	completeTodo: (selectedTodo: Todo) => void;
 	getTodoById: (id: Todo) => void;
-	selected?: Label;
+	selectedLabel?: Label;
 	handleSelected: (label: Label) => void;
 	selectedPriority?: any;
 }
@@ -54,7 +57,7 @@ const TodoProvider: React.FC = ({ children }) => {
 		bootstrap();
 	}, [bootstrap]);
 
-	const selected = React.useMemo(
+	const selectedLabel = React.useMemo(
 		() => labels.find((i) => i.id === selectedLabelId),
 		[labels, selectedLabelId],
 	);
@@ -80,15 +83,17 @@ const TodoProvider: React.FC = ({ children }) => {
 		text: string,
 		description: string,
 		priority: string,
+		date: Date,
 	) => {
-		if (selected) {
+		if (selectedLabel) {
 			const newTodo = {
 				text,
 				description,
 				complete: false,
 				id: Date.now(),
-				categoryId: selected.id,
+				categoryId: selectedLabel.id,
 				priority,
+				date,
 			};
 			console.log(newTodo);
 			await createTodoApi(newTodo);
@@ -119,7 +124,7 @@ const TodoProvider: React.FC = ({ children }) => {
 			value={{
 				todos,
 				labels,
-				selected,
+				selectedLabel,
 				handleSelected,
 				addTodo,
 				addLabel,
@@ -157,10 +162,10 @@ export const useLabelActions = () => {
 		addLabel,
 		removeLabel,
 		editLabel,
-		selected,
+		selectedLabel,
 		handleSelected,
 	} = React.useContext(Context) as IContext;
-	return { addLabel, removeLabel, editLabel, selected, handleSelected };
+	return { addLabel, removeLabel, editLabel, selectedLabel, handleSelected };
 };
 
 export const useLabels = () => {
@@ -169,9 +174,11 @@ export const useLabels = () => {
 };
 
 export const useTodos = () => {
-	const { todos, selected } = React.useContext(Context) as IContext;
+	const { todos, selectedLabel } = React.useContext(Context) as IContext;
 	return {
-		todos: todos.filter((i) => selected && i.categoryId === selected.id),
+		todos: todos.filter(
+			(i) => selectedLabel && i.categoryId === selectedLabel.id,
+		),
 	};
 };
 
