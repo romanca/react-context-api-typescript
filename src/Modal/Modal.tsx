@@ -30,6 +30,8 @@ const ModalDialog: React.FC<IProps> = ({
 				zIndex: 2000,
 				position: 'relative',
 				boxShadow: '0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28)',
+				width: 300,
+				height: 300,
 			}}
 			closeModalDialog={closeModalDialog}>
 			{content && content}

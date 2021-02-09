@@ -1,64 +1,74 @@
 import React, { useState } from 'react';
 import Icon from '../Icon/Icon';
 import { useTodoActions } from '../Providers/TodoProvider';
-import { TodoFormContainer, GreenButton, Input } from './StyledComponents';
-import DatePicker from 'react-datepicker';
+import { TodoFormContainer, Input } from './StyledComponents';
 import 'react-datepicker/dist/react-datepicker.css';
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
+import { Error } from './AddLabelForm';
+import DatePicker from 'react-datepicker';
 
 export const AddTodoForm = () => {
 	const { addTodo } = useTodoActions();
-	const [text, setText] = useState('');
-	const [description, setDescription] = useState('');
-	const [priority, setPriority] = useState('Low');
-	const [date, setDate] = useState(new Date());
+
+	const validationSchema = yup.object({
+		text: yup.string().required('This field cannot be empty...!!!'),
+	});
 
 	return (
-		<form>
-			<TodoFormContainer>
-				<Input
-					type='text'
-					placeholder='Add Todo'
-					value={text}
-					onChange={(e) => {
-						setText(e.target.value);
-					}}
-				/>
-				<Input
-					type='text'
-					placeholder='Add Description'
-					value={description}
-					onChange={(e) => {
-						setDescription(e.target.value);
-					}}
-				/>
-				<select
-					value={priority}
-					onChange={(e) => {
-						setPriority(e.target.value);
-					}}>
-					<option>Low</option>
-					<option>Medium</option>
-					<option>High</option>
-				</select>
-				<DatePicker selected={date} onChange={(date: any) => setDate(date)} />
-			</TodoFormContainer>
-			<div style={{ width: 50, marginLeft: '92%' }}>
-				<button
-					style={{
-						width: 50,
-						height: 25,
-						background: 'green',
-						marginTop: 15,
-					}}
-					type='submit'
-					onClick={(e) => {
-						e.preventDefault();
-						addTodo(text, description, priority, date);
-						setText('');
-					}}>
-					<Icon name='plus' color='green' />
-				</button>
-			</div>
-		</form>
+		<Formik
+			initialValues={{
+				text: '',
+				description: '',
+				priority: '',
+				date: new Date(),
+			}}
+			validationSchema={validationSchema}
+			validateOnChange={true}
+			onSubmit={(i) => {
+				addTodo(i);
+			}}>
+			{({ errors, touched, handleChange, setFieldValue, values }) => (
+				<Form>
+					<TodoFormContainer>
+						<Input
+							type='text'
+							name='text'
+							placeholder='Add label'
+							onChange={handleChange}
+						/>
+						{errors.text && touched.text ? <Error>{errors.text}</Error> : null}
+						<Input
+							type='text'
+							name='description'
+							placeholder='Add Description'
+							onChange={handleChange}
+						/>
+						<select name='priority' onChange={handleChange}>
+							<option>Low</option>
+							<option>Medium</option>
+							<option>High</option>
+						</select>
+						<DatePicker
+							name='date'
+							selected={values.date}
+							onChange={(date) => setFieldValue('date', date)}
+						/>
+					</TodoFormContainer>
+					<div style={{ width: 50, marginLeft: '92%' }}>
+						<button
+							style={{
+								width: 50,
+								height: 25,
+								background: 'green',
+								marginTop: 15,
+							}}
+							type='submit'>
+							<Icon name='plus' color='green' />
+						</button>
+					</div>
+				</Form>
+			)}
+		</Formik>
 	);
 };

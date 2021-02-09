@@ -44,7 +44,8 @@ export function editLabel(label:Label): Promise<Label> {
 export function createTodo(todo: Omit<Todo, 'id'>): Promise<Todo> {
     const newTodo = {
         ...todo,
-        id: Date.now()
+        id: Date.now(),
+        complete: false,
     }
     updateLsItem(TODOS_LS_KEY, (current) => {
             return [...current, newTodo]

@@ -17,10 +17,7 @@ export interface IContext {
 	todos: Todo[];
 	labels: Label[];
 	addTodo: (
-		text: string,
-		description: string,
-		priority: string,
-		date: Date,
+		partialTodo: Pick<Todo, 'text' | 'description' | 'priority' | 'date'>,
 	) => void;
 	addLabel: (title: string) => void;
 	removeLabel: (id: number) => void;
@@ -80,24 +77,21 @@ const TodoProvider: React.FC = ({ children }) => {
 	};
 
 	const addTodo = async (
-		text: string,
-		description: string,
-		priority: string,
-		date: Date,
+		partialTodo: Pick<Todo, 'text' | 'description' | 'priority' | 'date'>,
 	) => {
 		if (selectedLabel) {
+			const tempId = Date.now();
 			const newTodo = {
-				text,
-				description,
-				complete: false,
-				id: Date.now(),
+				...partialTodo,
 				categoryId: selectedLabel.id,
-				priority,
-				date,
 			};
-			console.log(newTodo);
-			await createTodoApi(newTodo);
-			bootstrap();
+			setTodos((c) => [...c, { ...newTodo, id: tempId }]);
+			try {
+				const response = await createTodoApi(newTodo);
+				setTodos((c) => c.map((i) => (i.id === tempId ? response : i)));
+			} catch (e) {
+				setTodos((c) => c.filter((i) => i.id !== tempId));
+			}
 		}
 	};
 	const completeTodo = async (selectedTodo: Todo) => {
