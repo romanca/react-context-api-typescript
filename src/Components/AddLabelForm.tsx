@@ -1,16 +1,14 @@
 import React from 'react';
-import { TodoFormContainer, GreenButton, Input } from './StyledComponents';
+import {
+	TodoFormContainer,
+	GreenButton,
+	Input,
+	Error,
+} from './StyledComponents';
 import { useLabelActions } from '../Providers/TodoProvider';
 
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
-import styled from 'styled-components';
-
-export const Error = styled.div`
-	color: red;
-	font-weight: 500;
-	padding-top: 10px;
-`;
 
 const validationSchema = yup.object({
 	title: yup
@@ -43,27 +41,5 @@ export const AddLabelForm = () => {
 				)}
 			</Formik>
 		</TodoFormContainer>
-		// <form>
-		// 	<TodoFormContainer>
-		// 		<Input
-		// 			type='title'
-		// 			placeholder='Add label'
-		// 			value={title}
-		// 			onChange={(e) => {
-		// 				setTitle(e.target.value);
-		// 			}}
-		// 		/>
-
-		// 		<GreenButton
-		// 			type='submit'
-		// 			onClick={(e) => {
-		// 				e.preventDefault();
-		// 				addLabel(title);
-		// 				setTitle('');
-		// 			}}>
-		// 			+
-		// 		</GreenButton>
-		// 	</TodoFormContainer>
-		// </form>
 	);
 };

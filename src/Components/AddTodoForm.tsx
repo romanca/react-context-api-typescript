@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Icon from '../Icon/Icon';
 import { useTodoActions } from '../Providers/TodoProvider';
-import { TodoFormContainer, Input } from './StyledComponents';
+import { TodoFormContainer, Input, Error } from './StyledComponents';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
-import { Error } from './AddLabelForm';
 import DatePicker from 'react-datepicker';
 
 export const AddTodoForm = () => {
@@ -13,6 +12,7 @@ export const AddTodoForm = () => {
 
 	const validationSchema = yup.object({
 		text: yup.string().required('This field cannot be empty...!!!'),
+		description: yup.string().required('This field cannot be empty...!!!'),
 	});
 
 	return (
@@ -44,6 +44,9 @@ export const AddTodoForm = () => {
 							placeholder='Add Description'
 							onChange={handleChange}
 						/>
+						{errors.description && touched.description ? (
+							<Error>{errors.description}</Error>
+						) : null}
 						<select name='priority' onChange={handleChange}>
 							<option>Low</option>
 							<option>Medium</option>
