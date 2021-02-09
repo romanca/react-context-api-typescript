@@ -1,7 +1,7 @@
 import React from 'react';
 import Icon from '../Icon/Icon';
 import { useTodoActions } from '../Providers/TodoProvider';
-import { TodoFormContainer, Input, Error } from './StyledComponents';
+import { TodoFormContainer, Input } from './StyledComponents';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
@@ -14,7 +14,6 @@ export const AddTodoForm = () => {
 		text: yup.string().required('This field cannot be empty...!!!'),
 		description: yup.string().required('This field cannot be empty...!!!'),
 	});
-
 	return (
 		<Formik
 			initialValues={{
@@ -37,7 +36,9 @@ export const AddTodoForm = () => {
 							placeholder='Add label'
 							onChange={handleChange}
 						/>
-						{errors.text && touched.text ? <Error>{errors.text}</Error> : null}
+						{errors.text && touched.text ? (
+							<div style={{ color: 'red' }}>{errors.text}</div>
+						) : null}
 						<Input
 							type='text'
 							name='description'
@@ -45,7 +46,7 @@ export const AddTodoForm = () => {
 							onChange={handleChange}
 						/>
 						{errors.description && touched.description ? (
-							<Error>{errors.description}</Error>
+							<div>{errors.description}</div>
 						) : null}
 						<select name='priority' onChange={handleChange}>
 							<option>Low</option>

@@ -7,11 +7,6 @@ export const Container = styled.div`
 	list-style: none;
 	border: 1px solid black;
 `;
-export const Error = styled.div`
-	color: red;
-	font-weight: 500;
-	padding-top: 10px;
-`;
 export const TodoListContainer = styled.div`
 	display: flex;
 	width: 100%;

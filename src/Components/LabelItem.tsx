@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Icon from '../Icon/Icon';
-
+// TODO create error check for title if input is empty
 interface IProps {
 	label: Label;
 	handleSelected: (label: Label) => void;

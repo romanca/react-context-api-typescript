@@ -1,21 +1,22 @@
 import React from 'react';
-import {
-	TodoFormContainer,
-	GreenButton,
-	Input,
-	Error,
-} from './StyledComponents';
+import { TodoFormContainer, GreenButton, Input } from './StyledComponents';
 import { useLabelActions } from '../Providers/TodoProvider';
 
-import { Formik, Form } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
+import styled from 'styled-components';
+
+const Error = styled.div`
+	color: red;
+	font-size: 15;
+`;
 
 const validationSchema = yup.object({
 	title: yup
 		.string()
-		.min(2, 'Title is too Short...!!!')
-		.max(20, 'Title is tooLong...!!!')
-		.required('Title is Required...!!!'),
+		.min(2, 'Too Short!')
+		.max(20, 'Too Long!')
+		.required('Required'),
 });
 
 export const AddLabelForm = () => {
@@ -32,14 +33,40 @@ export const AddLabelForm = () => {
 				}}>
 				{({ errors, touched, handleChange }) => (
 					<Form>
-						<Input placeholder='Add label' onChange={handleChange} />
+						<Input
+							name='title'
+							placeholder='Add label'
+							onChange={handleChange}
+						/>
 						{errors.title && touched.title ? (
-							<Error>{errors.title}</Error>
+							<div style={{ color: 'red' }}>{errors.title}</div>
 						) : null}
 						<GreenButton type='submit'>+</GreenButton>
 					</Form>
 				)}
 			</Formik>
 		</TodoFormContainer>
+		// <form>
+		// 	<TodoFormContainer>
+		// 		<Input
+		// 			type='title'
+		// 			placeholder='Add label'
+		// 			value={title}
+		// 			onChange={(e) => {
+		// 				setTitle(e.target.value);
+		// 			}}
+		// 		/>
+
+		// 		<GreenButton
+		// 			type='submit'
+		// 			onClick={(e) => {
+		// 				e.preventDefault();
+		// 				addLabel(title);
+		// 				setTitle('');
+		// 			}}>
+		// 			+
+		// 		</GreenButton>
+		// 	</TodoFormContainer>
+		// </form>
 	);
 };
