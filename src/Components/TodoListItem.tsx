@@ -99,7 +99,7 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 					</TodoListContainer>
 					<RedButton
 						onClick={() => {
-							removeTodo(todo.id);
+							removeTodo(todo);
 						}}>
 						<Icon name='remove' />
 					</RedButton>

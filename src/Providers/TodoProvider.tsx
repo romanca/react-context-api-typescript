@@ -20,12 +20,12 @@ export interface IContext {
 		partialTodo: Pick<Todo, 'text' | 'description' | 'priority' | 'date'>,
 	) => void;
 	addLabel: (title: string) => void;
-	removeLabel: (id: number) => void;
-	removeTodo: (id: number) => void;
+	removeLabel: (label: Label) => void;
+	removeTodo: (todo: Todo) => void;
 	editTodo: (todo: Todo) => void;
 	editLabel: (label: Label) => void;
 	completeTodo: (selectedTodo: Todo) => void;
-	getTodoById: (id: Todo) => void;
+	// getTodoById: (id: Todo) => void;
 	selectedLabel?: Label;
 	handleSelected: (label: Label) => void;
 	selectedPriority?: any;
@@ -64,16 +64,43 @@ const TodoProvider: React.FC = ({ children }) => {
 	};
 
 	const addLabel = async (title: string) => {
-		await createLabelApi({ title });
-		bootstrap();
+		const tempId = Date.now();
+		const newLabel = {
+			title,
+		};
+		const response = await createLabelApi(newLabel);
+
+		setLabels((i) => [...i, { ...newLabel, id: tempId }]);
+		try {
+			setLabels((current) =>
+				current.map((i) => (i.id === tempId ? response : i)),
+			);
+		} catch (e) {
+			setLabels((current) => current.filter((i) => i.id !== tempId));
+		}
 	};
-	const removeLabel = async (id: number) => {
-		await removeLabelApi(id);
-		bootstrap();
+	const removeLabel = async (label: Label) => {
+		setLabels((current) =>
+			current.map((i) => (i.id === label.id ? { ...i, deleted: true } : i)),
+		);
+		try {
+			await removeLabelApi(label.id);
+			setLabels((current) => current.filter((i) => i.id !== label.id));
+		} catch (e) {
+			setLabels((current) =>
+				current.map((i) => (i.id !== label.id ? { ...i, deleted: false } : i)),
+			);
+		}
 	};
 	const editLabel = async (label: Label) => {
-		await editLabelApi(label);
-		bootstrap();
+		const response = await editLabelApi(label);
+		try {
+			setLabels((current) =>
+				current.map((i) => (i.id === label.id ? response : i)),
+			);
+		} catch (e) {
+			setLabels((current) => current.filter((i) => i.id !== label.id));
+		}
 	};
 
 	const addTodo = async (
@@ -95,23 +122,52 @@ const TodoProvider: React.FC = ({ children }) => {
 		}
 	};
 	const completeTodo = async (selectedTodo: Todo) => {
-		await completeTodoApi(selectedTodo);
-		bootstrap();
+		try {
+			await completeTodoApi(selectedTodo);
+			setTodos((current) =>
+				current.map((todo: Todo) =>
+					todo.id === selectedTodo.id
+						? { ...todo, complete: !todo.complete }
+						: todo,
+				),
+			);
+		} catch (e) {
+			setTodos((current) =>
+				current.map((todo: Todo) =>
+					todo.id !== selectedTodo.id
+						? { ...todo, complete: todo.complete }
+						: todo,
+				),
+			);
+		}
 	};
 
-	const removeTodo = async (id: number) => {
-		await removeTodoApi(id);
-		bootstrap();
+	const removeTodo = async (todo: Todo) => {
+		setTodos((current) =>
+			current.map((i) => (i.id === todo.id ? { ...i, deleted: true } : i)),
+		);
+		try {
+			await removeTodoApi(todo.id);
+			setTodos((current) => current.filter((i) => i.id !== todo.id));
+		} catch (e) {}
 	};
 
 	const editTodo = async (todo: Todo) => {
-		await editTodoApi(todo);
-		bootstrap();
+		const response = await editTodoApi(todo);
+		try {
+			setTodos((current) =>
+				current.map((i) => (i.id === todo.id ? response : i)),
+			);
+		} catch (e) {
+			setTodos((current) =>
+				current.filter((i) => (i.id !== todo.id ? response : i)),
+			);
+		}
 	};
 
-	const getTodoById = (id: Todo) => {
-		return todos.find((i) => i.id === id);
-	};
+	// const getTodoById = (id: Todo) => {
+	// 	return todos.find((i) => i.id === id);
+	// };
 
 	return (
 		<Context.Provider
@@ -127,7 +183,7 @@ const TodoProvider: React.FC = ({ children }) => {
 				editTodo,
 				editLabel,
 				completeTodo,
-				getTodoById,
+				// getTodoById,
 			}}>
 			{children}
 		</Context.Provider>
@@ -140,7 +196,7 @@ export const useTodoActions = () => {
 		removeTodo,
 		editTodo,
 		completeTodo,
-		getTodoById,
+		// getTodoById,
 	} = React.useContext(Context) as IContext;
 
 	return {
@@ -148,7 +204,7 @@ export const useTodoActions = () => {
 		removeTodo,
 		editTodo,
 		completeTodo,
-		getTodoById,
+		// getTodoById,
 	};
 };
 export const useLabelActions = () => {

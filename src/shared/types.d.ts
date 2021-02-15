@@ -6,10 +6,12 @@ interface Todo {
 	categoryId: number
 	priority: string
 	date: Date
+	deleted?: boolean
 }
 interface Label {
 	title: string
 	id: number
+	deleted?: boolean
 }
 
 interface Category {
