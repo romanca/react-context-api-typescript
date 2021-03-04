@@ -2,8 +2,8 @@ interface Todo {
 	text: string
 	description: string
 	complete?: boolean
-	id: nubmer
-	categoryId: number
+	id: number
+	categoryId?: number
 	priority: string
 	date: Date
 	deleted?: boolean

@@ -1,14 +1,36 @@
 import React from 'react';
-import { TodoListItem } from './TodoListItem';
-import { useTodos, useLabelActions } from '../Providers/TodoProvider';
+import { useLabelState } from '../Hooks';
 import { ModalButton } from '../Modal/Modal';
 import Icon from '../Icon/Icon';
 import { useTodoConfirmDialog } from '../Providers/ModalProvider';
+import useFilteredTodos from '../Hooks/useFilteredTodos';
 
 export const TodoList = () => {
-	const { todos } = useTodos();
-	const { selectedLabel } = useLabelActions();
+	const { selectedLabel } = useLabelState();
 	const openModalDialog = useTodoConfirmDialog();
+	const [valueSelect, setValueSelect] = React.useState('bcd');
+
+	const {
+		rednerCompletedTodos,
+		renderAllTodos,
+		renderActiveTodos,
+	} = useFilteredTodos();
+
+	const toggleContent = (e: any) => {
+		setValueSelect(e.target.value);
+	};
+	const switchContent = (value: any) => {
+		switch (value) {
+			case 'completed':
+				return <div>{rednerCompletedTodos()}</div>;
+			case 'all':
+				return <div>{renderAllTodos()}</div>;
+			case 'active':
+				return <div>{renderActiveTodos()}</div>;
+			default:
+				return null;
+		}
+	};
 
 	return (
 		<div>
@@ -23,9 +45,18 @@ export const TodoList = () => {
 			<ModalButton onClick={openModalDialog}>
 				<Icon name='plus' />
 			</ModalButton>
-			{todos.map((todo) => (
-				<TodoListItem todo={todo} key={todo.id} />
-			))}
+			<div>{switchContent(valueSelect)}</div>
+			<div>
+				<button value='completed' onClick={toggleContent}>
+					Completed
+				</button>
+				<button value='all' onClick={toggleContent}>
+					All
+				</button>
+				<button value='active' onClick={toggleContent}>
+					Active
+				</button>
+			</div>
 		</div>
 	);
 };

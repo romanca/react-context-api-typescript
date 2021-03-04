@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import Icon from '../Icon/Icon';
 
-import { useTodoActions } from '../Providers/TodoProvider';
+import { useTodoActions } from '../Hooks';
 import { GreenButton, RedButton } from './StyledComponents';
 import { formatDateToTodoDate } from '../shared/date-formatter';
+
 import {
 	Container,
 	TodoListContainer,
@@ -99,7 +100,7 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 					</TodoListContainer>
 					<RedButton
 						onClick={() => {
-							removeTodo(todo);
+							removeTodo(todo.id);
 						}}>
 						<Icon name='remove' />
 					</RedButton>

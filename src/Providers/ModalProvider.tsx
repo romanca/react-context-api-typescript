@@ -5,6 +5,7 @@ import ModalDialog from '../Modal/Modal';
 
 interface IProps {
 	setDialog?: any;
+	closeModalDialog?: any;
 }
 
 const ModalContext = createContext<IProps | null>(null);
@@ -16,13 +17,14 @@ const ModalProvider: React.FC<IProps> = ({ children }) => {
 	const closeModalDialog = () => {
 		setVisible(false);
 	};
+
 	const setDialog = (content: React.FC) => {
 		setVisible(true);
 		setContent(content);
 	};
 
 	return (
-		<ModalContext.Provider value={{ setDialog }}>
+		<ModalContext.Provider value={{ setDialog, closeModalDialog }}>
 			{children}
 			<ModalDialog
 				closeModalDialog={closeModalDialog}

@@ -5,7 +5,7 @@ interface IProps {
 	label: Label;
 	handleSelected: (label: Label) => void;
 	isSelected: boolean;
-	removeLabel: (label: Label) => void;
+	removeLabel: (id: number) => void;
 	editLabel: (label: Label) => void;
 }
 
@@ -59,7 +59,7 @@ export const LabelItem: React.FC<IProps> = ({
 					<div onClick={() => handleSelected(label)}>{label.title}</div>
 					<div style={{ display: 'flex' }}>
 						<button
-							onClick={() => removeLabel(label)}
+							onClick={() => removeLabel(label.id)}
 							style={{
 								outline: 'none',
 								border: 'none',

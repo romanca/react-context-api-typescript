@@ -1,7 +1,6 @@
 import { getLsItem, updateLsItem } from '../shared/localStorage';
 
 
-
 const TODOS_LS_KEY = 'TODOS_LS_KEY'
 const LABELS_LS_KEY = 'LABELS_LS_KEY'
 
@@ -33,11 +32,23 @@ export function removeLabel(id: number): Promise<number> {
     return Promise.resolve(id)
 }
  
-export function editLabel(label:Label): Promise<Label> {
+export function editLabel(label: Partial<Label> & { id: number }): Promise<Label> {
    updateLsItem(LABELS_LS_KEY, (current) => {
        return current.map((i: Label) => i.id === label.id ? label : i)
    }, [])
-    return Promise.resolve(label)
+   return new Promise(async (resolve, reject) => {
+    try {
+        const labels = await getLabels()
+        const foundLabel = labels.find(i => i.id === label.id)
+        if (foundLabel) {
+            resolve(foundLabel)
+        } else {
+            reject({ msg: 'does not exist' })
+        }
+    } catch (error) {
+        reject({ msg: 'internal', error })
+    }
+})
 }
  
  
@@ -60,28 +71,45 @@ export function removeTodo(id: number): Promise<number> {
     return Promise.resolve(id)
 }
  
-export function editTodo(todo: Todo): Promise<Todo> {
+export function editTodo(todo: Partial<Todo> & { id: number }): Promise<Todo> {
 
     updateLsItem(TODOS_LS_KEY, (current) => {
-        return current.map((i: Todo) => i.id === todo.id ? todo : i)
+        return current.map((i: Todo) => i.id === todo.id ? ({ ...i, ...todo }) : i)
     }, [])
-    return Promise.resolve(todo)
+    return new Promise(async (resolve, reject) => {
+        try {
+            const todos = await getTodos()
+            const foundTodo = todos.find(i => i.id === todo.id)
+            if (foundTodo) {
+                resolve(foundTodo)
+            } else {
+                reject({ msg: 'does not exist' })
+            }
+        } catch (error) {
+            reject({ msg: 'internal', error })
+        }
+    })
+}
+export function completeTodo(selectedTodo: Partial<Todo> & { id: number }): Promise<Todo> {
+
+    updateLsItem(TODOS_LS_KEY, (current) => {
+        return current.map((i: Todo) => i.id === selectedTodo.id ? ({ ...i, complete: !i.complete }) : i)
+    }, [])
+    return new Promise(async (resolve, reject) => {
+        try {
+            const todos = await getTodos()
+            const selected = todos.find(i => i.id === selectedTodo.id)
+            if (selected) {
+                resolve(selected)
+            } else {
+                reject({ msg: 'does not exist' })
+            }
+        } catch (error) {
+            reject({ msg: 'internal', error })
+        }
+    })
 }
 
-export function completeTodo(selectedTodo: Todo): Promise<Todo> {
-  updateLsItem(TODOS_LS_KEY, current => {
-      return current.map((todo: Todo) => {
-        if (todo.id === selectedTodo.id) {
-            return {
-                ...todo,
-                complete: !todo.complete,
-            };
-        }
-        return todo;
-    })
-  }, [])
-  return Promise.resolve(selectedTodo)
-}
 
 
  

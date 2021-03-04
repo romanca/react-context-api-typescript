@@ -35,19 +35,6 @@ const ModalDialog: React.FC<IProps> = ({
 			}}
 			closeModalDialog={closeModalDialog}>
 			{content && content}
-			<div style={{ marginTop: -25, background: 'green', width: 50 }}>
-				<button
-					style={{
-						width: 50,
-						height: 25,
-						background: 'red',
-						outline: 'none',
-						border: 'none',
-					}}
-					onClick={closeModalDialog}>
-					Close
-				</button>
-			</div>
 		</PopPop>
 	);
 };

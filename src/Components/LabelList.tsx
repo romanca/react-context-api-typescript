@@ -1,20 +1,15 @@
 import React from 'react';
 import { LabelItem } from './LabelItem';
-import { useLabels, useLabelActions } from '../Providers/TodoProvider';
+import { useLabelState, useLabelActions } from '../Hooks';
 import { useLabelConfirmDialog } from '../Providers/ModalProvider';
 import Icon from '../Icon/Icon';
 import { ModalButton } from '../Modal/Modal';
 
 export const LabelList = () => {
-	const { labels } = useLabels();
-	const openModalDialog = useLabelConfirmDialog();
+	const { labels, selectedLabel } = useLabelState();
+	const { setSelectedLabel, removeLabel, editLabel } = useLabelActions();
 
-	const {
-		selectedLabel,
-		handleSelected,
-		removeLabel,
-		editLabel,
-	} = useLabelActions();
+	const openModalDialog = useLabelConfirmDialog();
 
 	return (
 		<div>
@@ -25,8 +20,8 @@ export const LabelList = () => {
 				<LabelItem
 					label={label}
 					key={label.id}
-					handleSelected={handleSelected}
-					isSelected={selectedLabel === label}
+					handleSelected={setSelectedLabel}
+					isSelected={selectedLabel?.id === label.id}
 					removeLabel={removeLabel}
 					editLabel={editLabel}
 				/>

@@ -1,14 +1,25 @@
 import React from 'react';
 import Icon from '../Icon/Icon';
-import { useTodoActions } from '../Providers/TodoProvider';
+import { useTodoActions, useLabelState } from '../Hooks';
 import { TodoFormContainer, Input } from './StyledComponents';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import DatePicker from 'react-datepicker';
+import { useModal } from '../Providers/ModalProvider';
 
 export const AddTodoForm = () => {
 	const { addTodo } = useTodoActions();
+	const { selectedLabel } = useLabelState();
+	const { closeModalDialog } = useModal();
+
+	const handleSubmit = React.useCallback(
+		(todo: Omit<Todo, 'id'>) => {
+			addTodo({ ...todo, categoryId: selectedLabel?.id });
+			closeModalDialog();
+		},
+		[selectedLabel],
+	);
 
 	const validationSchema = yup.object({
 		text: yup.string().required('This field cannot be empty...!!!'),
@@ -19,14 +30,12 @@ export const AddTodoForm = () => {
 			initialValues={{
 				text: '',
 				description: '',
-				priority: '',
+				priority: 'Low',
 				date: new Date(),
 			}}
 			validationSchema={validationSchema}
 			validateOnChange={true}
-			onSubmit={(i) => {
-				addTodo(i);
-			}}>
+			onSubmit={handleSubmit}>
 			{({ errors, touched, handleChange, setFieldValue, values }) => (
 				<Form>
 					<TodoFormContainer>
