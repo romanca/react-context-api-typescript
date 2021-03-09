@@ -4,28 +4,45 @@ import { useTodosBySelectedLabel } from './selectors';
 
 const useFilteredTodos = () => {
 	const todos = useTodosBySelectedLabel();
+	const [searchTerm, setSearchTerm] = React.useState('');
 
-	const rednerCompletedTodos = () => {
-		return todos
-			.filter((i) => i.complete)
+	const handleChange = (e: any) => {
+		setSearchTerm(e.target.value);
+	};
+	const search = () => {
+		// return todos.filter((todo: Todo) => todo.text.indexOf(searchTerm) > -1);
+
+		return todos.filter((todo: Todo) =>
+			todo.text.toLowerCase().includes(searchTerm.toLocaleLowerCase()),
+		);
+	};
+	// const results = !searchTerm;
+	// todos.filter((i) => i.toLowerCase().includes(searchTerm.toLocaleLowerCase()));
+
+	const renderCompletedTodos = () => {
+		return search()
+			.filter((todo: Todo) => todo.complete)
 			.map((todo: Todo) => <TodoListItem todo={todo} key={todo.id} />);
 	};
 
 	const renderAllTodos = () => {
-		return todos.map((todo: Todo) => (
+		return search().map((todo: Todo) => (
 			<TodoListItem todo={todo} key={todo.id} />
 		));
 	};
 	const renderActiveTodos = () => {
-		return todos
-			.filter((i) => !i.complete)
+		return search()
+			.filter((todo: Todo) => !todo.complete)
 			.map((todo: Todo) => <TodoListItem todo={todo} key={todo.id} />);
 	};
 
 	return {
-		rednerCompletedTodos,
+		renderCompletedTodos,
 		renderAllTodos,
 		renderActiveTodos,
+		search,
+		handleChange,
+		searchTerm,
 	};
 };
 

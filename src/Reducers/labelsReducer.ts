@@ -1,8 +1,10 @@
+
 export const initialLabelState = {
 	loading: false,
 	data: [] as Label[],
 	selectedLabel: null as null | Label,
 };
+console.log(initialLabelState)
 
 export type TLabelState = typeof initialLabelState
 

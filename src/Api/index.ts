@@ -10,7 +10,7 @@ export function getTodos(): Promise<Todo[]> {
 }
 
 export function getLabels(): Promise<Label[]> {
-    const labels = getLsItem(LABELS_LS_KEY, [])
+    const labels = getLsItem(LABELS_LS_KEY, [{title: "Inbox"}])
     return Promise.resolve(labels)
 }
 

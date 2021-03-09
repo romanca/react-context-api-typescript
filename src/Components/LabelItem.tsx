@@ -1,6 +1,32 @@
 import React, { useState } from 'react';
 import Icon from '../Icon/Icon';
+import styled from 'styled-components';
 // TODO create error check for title if input is empty
+
+const LabelItemContainer = styled.div`
+	display: flex;
+	width: 90%;
+	padding: 10px;
+	padding-top: 10px;
+	margin: 5px;
+	:hover {
+		cursor: pointer;
+		background: white;
+		border-radius: 5px;
+	}
+`;
+
+const ButtonContainer = styled.div`
+	display: flex;
+	opacity: 0;
+	:hover {
+		cursor: pointer;
+		opacity: 1;
+	}
+`;
+const TitleContainer = styled.div`
+	width: 100%;
+`;
 interface IProps {
 	label: Label;
 	handleSelected: (label: Label) => void;
@@ -45,19 +71,23 @@ export const LabelItem: React.FC<IProps> = ({
 	return (
 		<div>
 			{!open ? (
-				<div
-					style={{
-						backgroundColor: isSelected ? 'teal' : undefined,
-						border: '1px solid black',
-						padding: 5,
-						borderRadius: 5,
-						margin: 5,
-						color: 'black',
-						boxShadow: '2px 2px 4px #000000',
-						wordWrap: 'break-word',
-					}}>
-					<div onClick={() => handleSelected(label)}>{label.title}</div>
-					<div style={{ display: 'flex' }}>
+				<LabelItemContainer>
+					<TitleContainer
+						onClick={() => handleSelected(label)}
+						style={{ fontWeight: isSelected ? 700 : undefined }}>
+						{label.title}
+					</TitleContainer>
+					<ButtonContainer>
+						<button
+							onClick={toggleLabel}
+							style={{
+								border: 'none',
+								outline: 'none',
+								background: 'transparent',
+								fontSize: 15,
+							}}>
+							<Icon name='edit' />
+						</button>
 						<button
 							onClick={() => removeLabel(label.id)}
 							style={{
@@ -69,22 +99,11 @@ export const LabelItem: React.FC<IProps> = ({
 							}}>
 							<Icon name='remove' />
 						</button>
-						<button
-							onClick={toggleLabel}
-							style={{
-								border: 'none',
-								outline: 'none',
-								background: 'transparent',
-								fontSize: 15,
-							}}>
-							<Icon name='edit' />
-						</button>
-					</div>
-				</div>
+					</ButtonContainer>
+				</LabelItemContainer>
 			) : (
 				<div
 					style={{
-						backgroundColor: isSelected ? 'teal' : undefined,
 						border: '1px solid black',
 						padding: 5,
 						borderRadius: 5,

@@ -10,15 +10,15 @@ export type IconName = keyof typeof IconNamesMap;
 
 interface IProps {
 	name: IconName;
-	style?: unknown;
+	style?: any;
 	color?: string;
 	fontSize?: number;
 }
 
-const Icon: React.FC<IProps> = ({ name, color }) => {
+const Icon: React.FC<IProps> = ({ name, color, style }) => {
 	return (
 		<div>
-			<i className={IconNamesMap[name]} color={color} />
+			<i className={IconNamesMap[name]} color={color} style={style} />
 		</div>
 	);
 };

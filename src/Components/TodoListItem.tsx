@@ -2,15 +2,9 @@ import React, { useState } from 'react';
 import Icon from '../Icon/Icon';
 
 import { useTodoActions } from '../Hooks';
-import { GreenButton, RedButton } from './StyledComponents';
 import { formatDateToTodoDate } from '../shared/date-formatter';
 
-import {
-	Container,
-	TodoListContainer,
-	CheckBox,
-	Input,
-} from './StyledComponents';
+import {} from './StyledComponents';
 
 interface IProps {
 	todo: Todo;
@@ -58,11 +52,11 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 	};
 
 	return (
-		<Container>
+		<div>
 			{!open ? (
 				<div style={{ display: 'flex' }}>
-					<TodoListContainer>
-						<CheckBox
+					<div>
+						<input
 							type='checkbox'
 							defaultChecked={todo.complete}
 							onClick={() => {
@@ -75,7 +69,7 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 								marginBottom: 'auto',
 								marginTop: 'auto',
 								paddingLeft: 5,
-								flexDirection: 'row',
+								display: 'flex',
 								background: 'red',
 								padding: 10,
 								msFlexDirection: 'row',
@@ -97,21 +91,21 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 							</label>
 							<div>{formatDateToTodoDate(todo.date)}</div>
 						</div>
-					</TodoListContainer>
-					<RedButton
+					</div>
+					<button
 						onClick={() => {
 							removeTodo(todo.id);
 						}}>
 						<Icon name='remove' />
-					</RedButton>
-					<GreenButton onClick={toggleTodo}>
+					</button>
+					<button onClick={toggleTodo}>
 						<Icon name='edit' />
-					</GreenButton>
+					</button>
 				</div>
 			) : (
 				<div style={{ display: 'flex' }}>
-					<TodoListContainer>
-						<CheckBox
+					<div>
+						<input
 							type='checkbox'
 							defaultChecked={todo.complete}
 							onClick={() => {
@@ -126,8 +120,8 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 								paddingLeft: 5,
 								width: '90%',
 							}}>
-							<Input type='text' value={todoTitle} onChange={handleChange} />
-							<Input
+							<input type='text' value={todoTitle} onChange={handleChange} />
+							<input
 								type='text'
 								value={todoDescription}
 								onChange={handleTitleChange}
@@ -138,13 +132,13 @@ export const TodoListItem: React.FC<IProps> = ({ todo }) => {
 								<option>High</option>
 							</select>
 						</div>
-					</TodoListContainer>
-					<RedButton onClick={toggleTodo}>x</RedButton>
-					<GreenButton onClick={handleEditDone}>
+					</div>
+					<button onClick={toggleTodo}>x</button>
+					<button onClick={handleEditDone}>
 						<Icon name='edit' />
-					</GreenButton>
+					</button>
 				</div>
 			)}
-		</Container>
+		</div>
 	);
 };

@@ -31,6 +31,7 @@ export function todoReducer(state: TTodoState, action: TTodoAction) {
           loading: false,
           data: action.payload
         }
+        
       case 'ADD_TODO':
         return {
           ...state,

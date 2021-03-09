@@ -1,16 +1,8 @@
-import React from 'react';
-import { TodoFormContainer, GreenButton, Input } from './StyledComponents';
-
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 // import styled from 'styled-components';
 import { useLabelActions } from '../Hooks';
 import { useModal } from '../Providers/ModalProvider';
-
-// const Error = styled.div`
-// 	color: red;
-// 	font-size: 15;
-// `;
 
 const validationSchema = yup.object({
 	title: yup
@@ -25,7 +17,7 @@ export const AddLabelForm = () => {
 	const { closeModalDialog } = useModal();
 
 	return (
-		<TodoFormContainer>
+		<div>
 			<Formik
 				initialValues={{ title: '' }}
 				validationSchema={validationSchema}
@@ -36,7 +28,7 @@ export const AddLabelForm = () => {
 				}}>
 				{({ errors, touched, handleChange }) => (
 					<Form>
-						<Input
+						<input
 							name='title'
 							placeholder='Add label'
 							onChange={handleChange}
@@ -44,10 +36,19 @@ export const AddLabelForm = () => {
 						{errors.title && touched.title ? (
 							<div style={{ color: 'red' }}>{errors.title}</div>
 						) : null}
-						<GreenButton type='submit'>+</GreenButton>
+						<button type='submit'>+</button>
+						<button
+							style={{
+								width: 50,
+								height: 25,
+								background: 'red',
+							}}
+							onClick={closeModalDialog}>
+							x
+						</button>
 					</Form>
 				)}
 			</Formik>
-		</TodoFormContainer>
+		</div>
 	);
 };

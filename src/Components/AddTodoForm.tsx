@@ -1,7 +1,6 @@
 import React from 'react';
 import Icon from '../Icon/Icon';
 import { useTodoActions, useLabelState } from '../Hooks';
-import { TodoFormContainer, Input } from './StyledComponents';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
@@ -38,8 +37,8 @@ export const AddTodoForm = () => {
 			onSubmit={handleSubmit}>
 			{({ errors, touched, handleChange, setFieldValue, values }) => (
 				<Form>
-					<TodoFormContainer>
-						<Input
+					<div>
+						<input
 							type='text'
 							name='text'
 							placeholder='Add label'
@@ -48,7 +47,7 @@ export const AddTodoForm = () => {
 						{errors.text && touched.text ? (
 							<div style={{ color: 'red' }}>{errors.text}</div>
 						) : null}
-						<Input
+						<input
 							type='text'
 							name='description'
 							placeholder='Add Description'
@@ -67,17 +66,25 @@ export const AddTodoForm = () => {
 							selected={values.date}
 							onChange={(date) => setFieldValue('date', date)}
 						/>
-					</TodoFormContainer>
-					<div style={{ width: 50, marginLeft: '92%' }}>
+					</div>
+					<div style={{ display: 'flex' }}>
 						<button
 							style={{
 								width: 50,
 								height: 25,
 								background: 'green',
-								marginTop: 15,
 							}}
 							type='submit'>
 							<Icon name='plus' color='green' />
+						</button>
+						<button
+							style={{
+								width: 50,
+								height: 25,
+								background: 'red',
+							}}
+							onClick={closeModalDialog}>
+							x
 						</button>
 					</div>
 				</Form>

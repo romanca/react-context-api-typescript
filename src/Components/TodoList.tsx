@@ -1,19 +1,33 @@
 import React from 'react';
 import { useLabelState } from '../Hooks';
-import { ModalButton } from '../Modal/Modal';
 import Icon from '../Icon/Icon';
 import { useTodoConfirmDialog } from '../Providers/ModalProvider';
 import useFilteredTodos from '../Hooks/useFilteredTodos';
+import styled from 'styled-components';
+
+const Header = styled.header`
+	padding: 2px;
+	text-align: center;
+	background: #f1f1f1;
+	color: white;
+	height: 5vh;
+`;
+const LabelTitle = styled.div`
+	font-weight: 500;
+	font-size: 20px;
+	text-align: center;
+`;
 
 export const TodoList = () => {
 	const { selectedLabel } = useLabelState();
 	const openModalDialog = useTodoConfirmDialog();
-	const [valueSelect, setValueSelect] = React.useState('bcd');
-
+	const [valueSelect, setValueSelect] = React.useState('all');
 	const {
-		rednerCompletedTodos,
+		renderCompletedTodos,
 		renderAllTodos,
 		renderActiveTodos,
+		handleChange,
+		searchTerm,
 	} = useFilteredTodos();
 
 	const toggleContent = (e: any) => {
@@ -22,7 +36,7 @@ export const TodoList = () => {
 	const switchContent = (value: any) => {
 		switch (value) {
 			case 'completed':
-				return <div>{rednerCompletedTodos()}</div>;
+				return <div>{renderCompletedTodos()}</div>;
 			case 'all':
 				return <div>{renderAllTodos()}</div>;
 			case 'active':
@@ -34,17 +48,18 @@ export const TodoList = () => {
 
 	return (
 		<div>
-			<div
-				style={{
-					fontWeight: 500,
-					fontSize: 20,
-					textAlign: 'center',
-				}}>
-				{selectedLabel && selectedLabel.title}
-			</div>
-			<ModalButton onClick={openModalDialog}>
+			<Header>
+				<input
+					type='text'
+					value={searchTerm}
+					onChange={handleChange}
+					placeholder='Search'
+				/>
+			</Header>
+			<LabelTitle>{selectedLabel && selectedLabel.title}</LabelTitle>
+			<button onClick={openModalDialog}>
 				<Icon name='plus' />
-			</ModalButton>
+			</button>
 			<div>{switchContent(valueSelect)}</div>
 			<div>
 				<button value='completed' onClick={toggleContent}>
