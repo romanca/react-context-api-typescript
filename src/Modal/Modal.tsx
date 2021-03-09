@@ -1,15 +1,5 @@
 import React from 'react';
 import PopPop from 'react-poppop';
-import styled from 'styled-components';
-
-export const ModalButton = styled.button`
-	outline: none;
-	border: none;
-	background: transparent;
-	padding: 10px;
-	cursor: pointer;
-`;
-
 interface IProps {
 	content?: any;
 	closeModalDialog: () => void;
@@ -31,7 +21,6 @@ const ModalDialog: React.FC<IProps> = ({
 				position: 'relative',
 				boxShadow: '0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28)',
 				width: 300,
-				height: 300,
 			}}
 			closeModalDialog={closeModalDialog}>
 			{content && content}

@@ -1,8 +1,47 @@
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
-// import styled from 'styled-components';
+import styled from 'styled-components';
 import { useLabelActions } from '../Hooks';
 import { useModal } from '../Providers/ModalProvider';
+import SwitchInput from './Switch';
+
+const Input = styled.input`
+	width: 95%;
+	height: 30px;
+	font-size: 15px;
+	outline: none;
+	border-radius: 5px;
+	border: 1px solid black;
+	padding: 5px;
+`;
+const Error = styled.div`
+	color: tomato;
+`;
+
+const ButtonContainer = styled.div`
+	padding-top: 15px;
+`;
+
+const SaveButton = styled.button`
+	background: tomato;
+	border: 1px solid tomato;
+	outline: none;
+	padding: 8px;
+	border-radius: 5px;
+	color: white;
+	font-weight: 550;
+	cursor: pointer;
+`;
+const CancelButton = styled.button`
+	background: #f5f5f5;
+	outline: none;
+	padding: 8px;
+	border-radius: 5px;
+	font-weight: 550;
+	margin-left: 5px;
+	border: 1px solid #eeeeee;
+	cursor: pointer;
+`;
 
 const validationSchema = yup.object({
 	title: yup
@@ -28,24 +67,25 @@ export const AddLabelForm = () => {
 				}}>
 				{({ errors, touched, handleChange }) => (
 					<Form>
-						<input
-							name='title'
-							placeholder='Add label'
-							onChange={handleChange}
-						/>
-						{errors.title && touched.title ? (
-							<div style={{ color: 'red' }}>{errors.title}</div>
-						) : null}
-						<button type='submit'>+</button>
-						<button
-							style={{
-								width: 50,
-								height: 25,
-								background: 'red',
-							}}
-							onClick={closeModalDialog}>
-							x
-						</button>
+						<h3 style={{ marginLeft: 5, margin: 3, padding: 3 }}>Add Label</h3>
+						<div>
+							<Input
+								name='title'
+								placeholder='Add label'
+								onChange={handleChange}
+							/>
+							{errors.title && touched.title ? (
+								<Error>{errors.title}</Error>
+							) : null}
+							<div style={{ paddingTop: 15, display: 'flex' }}>
+								<SwitchInput />
+								<span style={{ paddingLeft: 10 }}>Add to favorites</span>
+							</div>
+							<ButtonContainer>
+								<SaveButton type='submit'>SAVE</SaveButton>
+								<CancelButton onClick={closeModalDialog}>CANCEL</CancelButton>
+							</ButtonContainer>
+						</div>
 					</Form>
 				)}
 			</Formik>

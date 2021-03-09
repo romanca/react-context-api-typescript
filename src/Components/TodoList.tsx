@@ -1,7 +1,5 @@
 import React from 'react';
 import { useLabelState } from '../Hooks';
-import Icon from '../Icon/Icon';
-import { useTodoConfirmDialog } from '../Providers/ModalProvider';
 import useFilteredTodos from '../Hooks/useFilteredTodos';
 import styled from 'styled-components';
 
@@ -20,7 +18,7 @@ const LabelTitle = styled.div`
 
 export const TodoList = () => {
 	const { selectedLabel } = useLabelState();
-	const openModalDialog = useTodoConfirmDialog();
+
 	const [valueSelect, setValueSelect] = React.useState('all');
 	const {
 		renderCompletedTodos,
@@ -57,9 +55,7 @@ export const TodoList = () => {
 				/>
 			</Header>
 			<LabelTitle>{selectedLabel && selectedLabel.title}</LabelTitle>
-			<button onClick={openModalDialog}>
-				<Icon name='plus' />
-			</button>
+
 			<div>{switchContent(valueSelect)}</div>
 			<div>
 				<button value='completed' onClick={toggleContent}>
