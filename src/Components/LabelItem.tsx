@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Icon from '../Icon/Icon';
 import styled from 'styled-components';
+import DropDownMenu from './DropDown';
 // TODO create error check for title if input is empty
 
 const LabelItemContainer = styled.div`
@@ -16,8 +16,22 @@ const LabelItemContainer = styled.div`
 	}
 `;
 
-const ButtonContainer = styled.div`
-	display: flex;
+const LabelEditItemContainer = styled.div`
+	width: 90%;
+	padding: 10px;
+	padding-top: 10px;
+	margin: 5px;
+	background: white;
+	border-radius: 5px;
+`;
+const LabelEditInput = styled.input`
+	border: none;
+	border-bottom: 1px solid #bdbdbd;
+	outline: none;
+	caret-color: auto;
+	width: 100%;
+`;
+const VisibleMenu = styled.div`
 	opacity: 0;
 	:hover {
 		cursor: pointer;
@@ -27,11 +41,36 @@ const ButtonContainer = styled.div`
 const TitleContainer = styled.div`
 	width: 100%;
 `;
+
+const SaveButton = styled.button`
+	background: tomato;
+	border: 1px solid tomato;
+	outline: none;
+	padding: 4px;
+	border-radius: 5px;
+	color: white;
+	font-weight: 600;
+	cursor: pointer;
+	font-size: 10px;
+`;
+const CancelButton = styled.button`
+	background: #f5f5f5;
+	outline: none;
+	padding: 4px;
+	border-radius: 5px;
+	font-weight: 600;
+	margin-left: 5px;
+	border: 1px solid #eeeeee;
+	cursor: pointer;
+	font-size: 10px;
+`;
+const LabelButtonContainer = styled.div`
+	margin-top: 5px;
+`;
 interface IProps {
 	label: Label;
 	handleSelected: (label: Label) => void;
 	isSelected: boolean;
-	removeLabel: (id: number) => void;
 	editLabel: (label: Label) => void;
 }
 
@@ -39,7 +78,6 @@ export const LabelItem: React.FC<IProps> = ({
 	label,
 	handleSelected,
 	isSelected,
-	removeLabel,
 	editLabel,
 }) => {
 	const [open, setOpen] = useState(false);
@@ -77,69 +115,18 @@ export const LabelItem: React.FC<IProps> = ({
 						style={{ fontWeight: isSelected ? 700 : undefined }}>
 						{label.title}
 					</TitleContainer>
-					<ButtonContainer>
-						<button
-							onClick={toggleLabel}
-							style={{
-								border: 'none',
-								outline: 'none',
-								background: 'transparent',
-								fontSize: 15,
-							}}>
-							<Icon name='edit' />
-						</button>
-						<button
-							onClick={() => removeLabel(label.id)}
-							style={{
-								outline: 'none',
-								border: 'none',
-								background: 'transparent',
-								fontSize: 15,
-								color: 'tomato',
-							}}>
-							<Icon name='remove' />
-						</button>
-					</ButtonContainer>
+					<VisibleMenu>
+						<DropDownMenu label={label} toggleLabel={toggleLabel} />
+					</VisibleMenu>
 				</LabelItemContainer>
 			) : (
-				<div
-					style={{
-						border: '1px solid black',
-						padding: 5,
-						borderRadius: 5,
-						margin: 5,
-						color: 'black',
-						boxShadow: '2px 2px 4px #000000',
-						display: 'flex',
-					}}>
-					<div>
-						<input type='text' value={value} onChange={handleChange} />
-					</div>
-					<div onClick={() => handleSelected(label)}>
-						<button
-							onClick={handleEditLabel}
-							style={{
-								outline: 'none',
-								border: 'none',
-								background: 'transparent',
-								color: 'black',
-								fontSize: 15,
-							}}>
-							<Icon name='edit' />
-						</button>
-						<button
-							onClick={toggleLabel}
-							style={{
-								color: 'tomato',
-								outline: 'none',
-								border: 'none',
-								background: 'transparent',
-								fontSize: 15,
-							}}>
-							X
-						</button>
-					</div>
-				</div>
+				<LabelEditItemContainer>
+					<LabelEditInput type='text' value={value} onChange={handleChange} />
+					<LabelButtonContainer onClick={() => handleSelected(label)}>
+						<SaveButton onClick={handleEditLabel}>Save</SaveButton>
+						<CancelButton onClick={toggleLabel}>CANCEL</CancelButton>
+					</LabelButtonContainer>
+				</LabelEditItemContainer>
 			)}
 		</div>
 	);

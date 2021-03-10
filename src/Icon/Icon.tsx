@@ -4,6 +4,7 @@ const IconNamesMap = {
 	edit: 'fa fa-pencil',
 	remove: 'fa fa-trash',
 	plus: 'fa fa-plus',
+	dots: 'fa fa-ellipsis-h',
 };
 
 export type IconName = keyof typeof IconNamesMap;
