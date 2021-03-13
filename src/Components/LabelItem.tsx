@@ -28,16 +28,9 @@ const LabelEditInput = styled.input`
 	border: none;
 	border-bottom: 1px solid #bdbdbd;
 	outline: none;
-	caret-color: auto;
 	width: 100%;
 `;
-const VisibleMenu = styled.div`
-	opacity: 0;
-	:hover {
-		cursor: pointer;
-		opacity: 1;
-	}
-`;
+
 const TitleContainer = styled.div`
 	width: 100%;
 `;
@@ -115,21 +108,17 @@ export const LabelItem: React.FC<IProps> = ({
 						style={{ fontWeight: isSelected ? 700 : undefined }}>
 						{label.title}
 					</TitleContainer>
-					<VisibleMenu>
-						<DropDownMenu label={label} toggleLabel={toggleLabel} />
-					</VisibleMenu>
+					<DropDownMenu label={label} toggleLabel={toggleLabel} />
 				</LabelItemContainer>
 			) : (
 				<LabelEditItemContainer>
 					<LabelEditInput type='text' value={value} onChange={handleChange} />
 					<LabelButtonContainer onClick={() => handleSelected(label)}>
 						<SaveButton onClick={handleEditLabel}>Save</SaveButton>
-						<CancelButton onClick={toggleLabel}>CANCEL</CancelButton>
+						<CancelButton onClick={toggleLabel}>Cancel</CancelButton>
 					</LabelButtonContainer>
 				</LabelEditItemContainer>
 			)}
 		</div>
 	);
 };
-
-//Todo Icon in button doesnt work

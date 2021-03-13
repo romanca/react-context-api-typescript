@@ -45,13 +45,13 @@ const DropDownMenu: React.FC<IProps> = ({ label, toggleLabel }) => {
 	const [open, setOpen] = React.useState(false);
 	const { removeLabel } = useLabelActions();
 
-	const handleLOpenMenu = () => {
-		setOpen(true);
+	const handleOpenCloseMenu = () => {
+		setOpen((current) => !current);
 	};
 
 	return (
 		<div>
-			<MainButton onClick={handleLOpenMenu}>
+			<MainButton onClick={handleOpenCloseMenu}>
 				<Icon name='dots' />
 			</MainButton>
 			<div>

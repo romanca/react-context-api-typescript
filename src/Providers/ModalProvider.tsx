@@ -1,6 +1,5 @@
 import React, { createContext, useState } from 'react';
 import { AddLabelForm } from '../Components/AddLabelForm';
-import { AddTodoForm } from '../Components/AddTodoForm';
 import ModalDialog from '../Modal/Modal';
 
 interface IProps {
@@ -42,13 +41,6 @@ export const useLabelConfirmDialog = () => {
 
 	return () => {
 		setDialog(<AddLabelForm />);
-	};
-};
-export const useTodoConfirmDialog = () => {
-	const { setDialog } = useModal();
-
-	return () => {
-		setDialog(<AddTodoForm />);
 	};
 };
 

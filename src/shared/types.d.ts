@@ -1,6 +1,5 @@
 interface Todo {
 	text: string
-	description: string
 	complete?: boolean
 	id: number
 	categoryId?: number

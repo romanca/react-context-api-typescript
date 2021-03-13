@@ -10,11 +10,7 @@ const useFilteredTodos = () => {
 		setSearchTerm(e.target.value);
 	};
 	const search = () => {
-		// return todos.filter((todo: Todo) => todo.text.indexOf(searchTerm) > -1);
-
-		return todos.filter((todo: Todo) =>
-			todo.text.toLowerCase().includes(searchTerm.toLocaleLowerCase()),
-		);
+		return todos.filter((todo: Todo) => todo.text.indexOf(searchTerm) > -1);
 	};
 	// const results = !searchTerm;
 	// todos.filter((i) => i.toLowerCase().includes(searchTerm.toLocaleLowerCase()));

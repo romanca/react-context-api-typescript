@@ -9,7 +9,7 @@ const LayoutContainer = styled.div`
 `;
 
 const SideBar = styled.div`
-	background: #f1f1f1;
+	background: #fafafa;
 	width: 20%;
 	height: 100vh;
 `;
@@ -17,11 +17,20 @@ const SideBar = styled.div`
 const MainContent = styled.div`
 	width: 80%;
 	height: 100vh;
+	overflow: scroll;
 `;
 const SideBarHeader = styled.div`
 	background: white;
 	width: 100%;
 	height: 5vh;
+`;
+const ProjectsContainer = styled.div`
+	display: flex;
+	width: 90%;
+	padding: 5px;
+	margin: 5px;
+	height: 20px;
+	font-weight: 700;
 `;
 
 const Layout = () => {
@@ -32,15 +41,7 @@ const Layout = () => {
 			<LayoutContainer>
 				<SideBar>
 					<SideBarHeader />
-					<div
-						style={{
-							display: 'flex',
-							width: '90%',
-							padding: 5,
-							margin: 5,
-							height: 20,
-							fontWeight: 700,
-						}}>
+					<ProjectsContainer>
 						<div style={{ width: '90%' }}>Projects</div>
 						<button
 							onClick={openLabelConfirmDialog}
@@ -48,10 +49,11 @@ const Layout = () => {
 								border: 'none',
 								outline: 'none',
 								background: 'transparent',
+								cursor: 'pointer',
 							}}>
 							<Icon name='plus' style={{ fontWeight: 100 }} />
 						</button>
-					</div>
+					</ProjectsContainer>
 					<LabelList />
 				</SideBar>
 				<MainContent>
