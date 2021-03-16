@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
-import Context from './Context';
+import React, { useEffect, createContext } from 'react';
 
 import { useTodos as useTodosState } from '../Hooks/useTodos';
 import { useLabels as useLabelsState } from '../Hooks/useLabels';
+
+const Context = createContext<IContext | null>(null);
 
 export interface IContext {
 	todoState: ReturnType<typeof useTodosState>[0];

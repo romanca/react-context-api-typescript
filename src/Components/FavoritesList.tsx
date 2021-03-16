@@ -1,14 +1,14 @@
-import { LabelItem } from './LabelItem';
-import { useLabelState, useLabelActions } from '../Hooks';
 
-export const LabelList = () => {
+import { LabelItem } from './LabelItem';
+import { useLabelState, useLabelActions } from '../Hooks/useLabels';
+
+const Favorites = () => {
 	const { labels, selectedLabel } = useLabelState();
 	const { setSelectedLabel, editLabel } = useLabelActions();
-
 	return (
 		<div>
 			{labels
-				.filter((i) => !i.favorite)
+				.filter((i) => i.favorite)
 				.map((label) => (
 					<LabelItem
 						label={label}
@@ -21,3 +21,4 @@ export const LabelList = () => {
 		</div>
 	);
 };
+export default Favorites;

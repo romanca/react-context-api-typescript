@@ -1,8 +1,18 @@
-import { LabelList } from './LabelList';
+import React from 'react';
 import { TodoList } from './TodoList';
 import styled from 'styled-components';
-import { useLabelConfirmDialog } from '../Providers/ModalProvider';
-import Icon from '../Icon/Icon';
+import useFilteredTodos from '../Hooks/useFilteredTodos';
+import Search from './Search';
+import FavoritesMenuItem from './SideBarComponents/FavoritesMenuItem';
+import LabelListMenuItem from './SideBarComponents/LabelListMenuItem';
+import FiltersMenuItem from './SideBarComponents/FiltersMenuItem';
+
+const Header = styled.header`
+	padding: 2px;
+	background: #fafafa;
+	color: white;
+	height: 5vh;
+`;
 
 const LayoutContainer = styled.div`
 	display: flex;
@@ -11,19 +21,15 @@ const LayoutContainer = styled.div`
 const SideBar = styled.div`
 	background: #fafafa;
 	width: 20%;
-	height: 100vh;
+	height: 95vh;
 `;
 
 const MainContent = styled.div`
 	width: 80%;
-	height: 100vh;
+	height: 95vh;
 	overflow: scroll;
 `;
-const SideBarHeader = styled.div`
-	background: white;
-	width: 100%;
-	height: 5vh;
-`;
+
 const ProjectsContainer = styled.div`
 	display: flex;
 	width: 90%;
@@ -34,30 +40,50 @@ const ProjectsContainer = styled.div`
 `;
 
 const Layout = () => {
-	const openLabelConfirmDialog = useLabelConfirmDialog();
+	const [valueSelect, setValueSelect] = React.useState('all');
+	const {
+		renderCompletedTodos,
+		renderAllTodos,
+		renderActiveTodos,
+		renderPriorityLowTodos,
+		renderPriorityMediumTodos,
+		renderPriorityHighTodos,
+		handleChange,
+		searchTerm,
+	} = useFilteredTodos();
+
+	const switchContent = (value: any) => {
+		switch (value) {
+			case 'completed':
+				return <div>{renderCompletedTodos()}</div>;
+			case 'all':
+				return <div>{renderAllTodos()}</div>;
+			case 'active':
+				return <div>{renderActiveTodos()}</div>;
+			case 'priorityLow':
+				return <div>{renderPriorityLowTodos()}</div>;
+			case 'priorityMiddle':
+				return <div>{renderPriorityMediumTodos()}</div>;
+			case 'priorityHigh':
+				return <div>{renderPriorityHighTodos()}</div>;
+			default:
+				return null;
+		}
+	};
 
 	return (
 		<div>
+			<Header>
+				<Search handleChange={handleChange} searchTerm={searchTerm} />
+			</Header>
 			<LayoutContainer>
 				<SideBar>
-					<SideBarHeader />
-					<ProjectsContainer>
-						<div style={{ width: '90%' }}>Projects</div>
-						<button
-							onClick={openLabelConfirmDialog}
-							style={{
-								border: 'none',
-								outline: 'none',
-								background: 'transparent',
-								cursor: 'pointer',
-							}}>
-							<Icon name='plus' style={{ fontWeight: 100 }} />
-						</button>
-					</ProjectsContainer>
-					<LabelList />
+					<FavoritesMenuItem />
+					<LabelListMenuItem />
+					<FiltersMenuItem />
 				</SideBar>
 				<MainContent>
-					<TodoList />
+					<TodoList valueSelect={valueSelect} switchContent={switchContent} />
 				</MainContent>
 			</LayoutContainer>
 		</div>

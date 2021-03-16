@@ -4,7 +4,6 @@ export const initialLabelState = {
 	data: [] as Label[],
 	selectedLabel: null as null | Label,
 };
-console.log(initialLabelState)
 
 export type TLabelState = typeof initialLabelState
 
@@ -15,6 +14,7 @@ export const labelActions = {
   removeLabel: (payload: number) => ({ type: 'REMOVE_LABEL', payload }) as const,
   editLabel: (id: number, payload: Partial<Label>) => ({ type: 'EDIT_LABEL', payload, id }) as const,
   setSelectedLabel: (payload: Label) => ({ type: 'SET_SELECTED_LABEL', payload }) as const,
+  favoriteLabel: (id:number, payload: Partial<Label>) => ({type: "FAVORITE_LABEL", payload, id}) as const
 }
 
 export type TLabelAction = ReturnType<typeof labelActions[keyof typeof labelActions]>
@@ -48,6 +48,19 @@ export function labelReducer(state: TLabelState, action: TLabelAction) {
         data: state.data.map(i => {
           if (i.id === action.id) {
             return {
+              ...i,
+              ...action.payload
+            }
+          }
+          return i
+        })
+      }
+      case "FAVORITE_LABEL": 
+        return{
+        ...state,
+        data: state.data.map(i => {
+          if (i.id === action.id) {
+            return{
               ...i,
               ...action.payload
             }

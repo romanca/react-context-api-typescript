@@ -91,15 +91,22 @@ export const AddTodoForm: React.FC<IProps> = ({ handleCloseAddTodoForm }) => {
 									{errors.text && touched.text ? (
 										<Error>{errors.text}</Error>
 									) : null}
-									<SelectTodoItem name='priority' onChange={handleChange}>
-										<option>Low</option>
-										<option>Medium</option>
-										<option>High</option>
-									</SelectTodoItem>
-									<DatePicker
-										selected={values.date}
-										onChange={(date: any) => setFieldValue('date', date)}
-									/>
+									<div style={{ display: 'flex' }}>
+										<div>
+											<SelectTodoItem onChange={handleChange}>
+												<option>Low</option>
+												<option>Medium</option>
+												<option>High</option>
+											</SelectTodoItem>
+										</div>
+
+										<div style={{ marginTop: 10 }}>
+											<DatePicker
+												selected={values.date}
+												onChange={(date: any) => setFieldValue('date', date)}
+											/>
+										</div>
+									</div>
 								</div>
 								<div style={{ paddingTop: 15 }}>
 									<SaveButton type='submit'>Save</SaveButton>

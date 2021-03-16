@@ -10,6 +10,7 @@ import {
 	createLabel as createLabelApi,
 	removeLabel as removeLabelApi,
 	editLabel as editLabelApi,
+	favoriteLabel as favoriteLabelApi
 } from '../Api/index';
 import { useError } from './useError';
 import { useTodoContext } from '../Providers/TodoProvider';
@@ -58,6 +59,21 @@ export const useLabels = () => {
 				dispatch(labelActions.editLabel(id, response))
 			} catch (err) {
 				dispatch(labelActions.editLabel(id, originalLabel))
+				setError(err)
+			}
+		},
+		favoriteLabel: async (payload: Partial<Todo> & {id: number}) => {
+			const id = payload.id
+			const originalValue = rawState.data.find(i => i.id === id)
+			if(!originalValue) {
+				return
+			}
+			try {
+				dispatch(labelActions.editLabel(id, payload))
+				const response = await favoriteLabelApi({ ...payload });
+				dispatch(labelActions.editLabel(id, response))
+			} catch (err) {
+				dispatch(labelActions.editLabel(id, originalValue))
 				setError(err)
 			}
 		},

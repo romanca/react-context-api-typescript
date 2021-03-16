@@ -4,13 +4,13 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { formatDateToTodoDate } from '../shared/date-formatter';
 import styled from 'styled-components';
 
-const DatePickerButton = styled.button`
-	height: 30px;
+const DatePickerButton = styled.div`
 	outline: none;
 	border: 1px solid black;
 	border-radius: 5px;
 	background: transparent;
 	margin-left: 5px;
+	padding: 5px;
 `;
 
 interface IProps {

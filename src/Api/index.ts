@@ -10,14 +10,15 @@ export function getTodos(): Promise<Todo[]> {
 }
 
 export function getLabels(): Promise<Label[]> {
-    const labels = getLsItem(LABELS_LS_KEY, [{title: "Inbox"}])
+    const labels = getLsItem(LABELS_LS_KEY, [ ])
     return Promise.resolve(labels)
 }
 
 export function createLabel(label:Omit<Label, 'id'>): Promise<Label> {
     const newLabel = {
         ...label,
-        id: Date.now()
+        id: Date.now(),
+        favorite: false
     }
     updateLsItem(LABELS_LS_KEY, current => {
         return [...current, newLabel]
@@ -49,6 +50,25 @@ export function editLabel(label: Partial<Label> & { id: number }): Promise<Label
         reject({ msg: 'internal', error })
     }
 })
+}
+export function favoriteLabel(selectedLabels: Partial<Label> & { id: number }): Promise<Label> {
+
+    updateLsItem(LABELS_LS_KEY, (current) => {
+        return current.map((i: Label) => i.id === selectedLabels.id ? ({ ...i, favorite: !i.favorite }) : i)
+    }, [])
+    return new Promise(async (resolve, reject) => {
+        try {
+            const labels = await getLabels()
+            const selected = labels.find(i => i.id === selectedLabels.id)
+            if (selected) {
+                resolve(selected)
+            } else {
+                reject({ msg: 'does not exist' })
+            }
+        } catch (error) {
+            reject({ msg: 'internal', error })
+        }
+    })
 }
  
  
@@ -109,6 +129,7 @@ export function completeTodo(selectedTodo: Partial<Todo> & { id: number }): Prom
         }
     })
 }
+ 
 
 
 

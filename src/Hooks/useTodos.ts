@@ -77,6 +77,9 @@ export const useTodos = () => {
 				setError(err)
 			}
 		},
+
+		 
+
 		 
 		completeTodo: async (payload: Partial<Todo> & { id: number }) => {
 			const id = payload.id
@@ -93,6 +96,7 @@ export const useTodos = () => {
 				setError(err)
 			}
 		},
+	
   }
 	return [state, actions] as const;
 };

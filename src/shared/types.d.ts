@@ -11,6 +11,7 @@ interface Label {
 	title: string
 	id: number
 	deleted?: boolean
+	favorite?: boolean
 }
 
 interface Category {

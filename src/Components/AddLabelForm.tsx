@@ -3,7 +3,7 @@ import * as yup from 'yup';
 import styled from 'styled-components';
 import { useLabelActions } from '../Hooks';
 import { useModal } from '../Providers/ModalProvider';
-import SwitchInput from './Switch';
+import Switch from './Switch';
 
 const Input = styled.input`
 	width: 95%;
@@ -77,10 +77,6 @@ export const AddLabelForm = () => {
 							{errors.title && touched.title ? (
 								<Error>{errors.title}</Error>
 							) : null}
-							<div style={{ paddingTop: 15, display: 'flex' }}>
-								<SwitchInput />
-								<span style={{ paddingLeft: 10 }}>Add to favorites</span>
-							</div>
 							<ButtonContainer>
 								<SaveButton type='submit'>SAVE</SaveButton>
 								<CancelButton onClick={closeModalDialog}>CANCEL</CancelButton>

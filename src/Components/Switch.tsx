@@ -1,7 +1,12 @@
 import React from 'react';
 import { Switch as SwitchRaw } from 'evergreen-ui';
 
-const Switch = () => {
+interface IProps {
+	onChange: any;
+	checked: boolean;
+}
+
+const Switch: React.FC<IProps> = () => {
 	const [checked, setChecked] = React.useState(false);
 
 	const handleChange = (e: any) => {
