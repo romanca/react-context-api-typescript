@@ -5,6 +5,8 @@ const IconNamesMap = {
 	remove: 'fa fa-trash',
 	plus: 'fa fa-plus',
 	dots: 'fa fa-ellipsis-h',
+	rightArrow: 'fa fa-angle-right',
+	downArrow: 'fa fa-angle-down',
 };
 
 export type IconName = keyof typeof IconNamesMap;

@@ -1,12 +1,13 @@
+import React from 'react';
 import Icon from '../../Icon/Icon';
 import { useLabelConfirmDialog } from '../../Providers/ModalProvider';
 import { LabelList } from '../LabelList';
 import styled from 'styled-components';
-import React from 'react';
+import { SlideDown } from 'react-slidedown';
+import 'react-slidedown/lib/slidedown.css';
 
 const ProjectsContainer = styled.div`
 	display: flex;
-	width: 90%;
 	padding: 5px;
 	margin: 5px;
 	height: 20px;
@@ -18,7 +19,7 @@ interface IProps {
 	onClick?: () => void;
 }
 
-const LabelListMenuItem: React.FC<IProps> = () => {
+const ProjectsListMenuItem: React.FC<IProps> = () => {
 	const openLabelConfirmDialog = useLabelConfirmDialog();
 	const [visible, setVisible] = React.useState(false);
 
@@ -28,10 +29,9 @@ const LabelListMenuItem: React.FC<IProps> = () => {
 
 	return (
 		<div>
-			<ProjectsContainer>
-				<div style={{ width: '90%' }} onClick={toggleProjects}>
-					Projects
-				</div>
+			<ProjectsContainer onClick={toggleProjects}>
+				{visible ? <Icon name='downArrow' /> : <Icon name='rightArrow' />}
+				<div style={{ position: 'fixed', marginLeft: 15 }}>Projects</div>
 				<button
 					onClick={openLabelConfirmDialog}
 					style={{
@@ -39,13 +39,17 @@ const LabelListMenuItem: React.FC<IProps> = () => {
 						outline: 'none',
 						background: 'transparent',
 						cursor: 'pointer',
+						position: 'fixed',
+						marginLeft: '18%',
 					}}>
-					<Icon name='plus' style={{ fontWeight: 100 }} />
+					<Icon name='plus' style={{ fontWeight: 100, color: 'white' }} />
 				</button>
 			</ProjectsContainer>
-			{visible ? <LabelList /> : ''}
+			<SlideDown className={'my-dropdown-slidedown'}>
+				{visible ? <LabelList /> : ''}
+			</SlideDown>
 		</div>
 	);
 };
 
-export default LabelListMenuItem;
+export default ProjectsListMenuItem;

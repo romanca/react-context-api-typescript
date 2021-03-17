@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import useFilteredTodos from '../Hooks/useFilteredTodos';
 import Search from './Search';
 import FavoritesMenuItem from './SideBarComponents/FavoritesMenuItem';
-import LabelListMenuItem from './SideBarComponents/LabelListMenuItem';
+import LabelListMenuItem from './SideBarComponents/ProjectsListMenuItem';
 import FiltersMenuItem from './SideBarComponents/FiltersMenuItem';
 
 const Header = styled.header`
 	padding: 2px;
-	background: #fafafa;
+	background: #004d40;
 	color: white;
 	height: 5vh;
 `;
@@ -19,24 +19,16 @@ const LayoutContainer = styled.div`
 `;
 
 const SideBar = styled.div`
-	background: #fafafa;
-	width: 20%;
+	background: #212121;
+	width: 22%;
 	height: 95vh;
+	color: white;
 `;
 
 const MainContent = styled.div`
-	width: 80%;
+	width: 78%;
 	height: 95vh;
 	overflow: scroll;
-`;
-
-const ProjectsContainer = styled.div`
-	display: flex;
-	width: 90%;
-	padding: 5px;
-	margin: 5px;
-	height: 20px;
-	font-weight: 700;
 `;
 
 const Layout = () => {
@@ -51,6 +43,10 @@ const Layout = () => {
 		handleChange,
 		searchTerm,
 	} = useFilteredTodos();
+
+	const toggleContent = (e: any) => {
+		setValueSelect(e.target.value);
+	};
 
 	const switchContent = (value: any) => {
 		switch (value) {
@@ -80,7 +76,7 @@ const Layout = () => {
 				<SideBar>
 					<FavoritesMenuItem />
 					<LabelListMenuItem />
-					<FiltersMenuItem />
+					<FiltersMenuItem toggleContent={toggleContent} />
 				</SideBar>
 				<MainContent>
 					<TodoList valueSelect={valueSelect} switchContent={switchContent} />

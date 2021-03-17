@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import Icon from '../../Icon/Icon';
 import Favorites from '../FavoritesList';
+import { SlideDown } from 'react-slidedown';
+import 'react-slidedown/lib/slidedown.css';
 
 const ProjectsContainer = styled.div`
 	display: flex;
@@ -24,12 +27,13 @@ const FavoritesMenuItem: React.FC<IProps> = () => {
 
 	return (
 		<div>
-			<ProjectsContainer>
-				<div style={{ width: '90%' }} onClick={toggleFavorites}>
-					Favorites
-				</div>
+			<ProjectsContainer onClick={toggleFavorites}>
+				{visible ? <Icon name='downArrow' /> : <Icon name='rightArrow' />}
+				<div style={{ marginLeft: 15, position: 'fixed' }}>Favorites</div>
 			</ProjectsContainer>
-			{visible ? <Favorites /> : ''}
+			<SlideDown className={'my-dropdown-slidedown'}>
+				{visible ? <Favorites /> : ''}
+			</SlideDown>
 		</div>
 	);
 };
