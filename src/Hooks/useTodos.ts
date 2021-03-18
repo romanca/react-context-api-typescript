@@ -77,10 +77,7 @@ export const useTodos = () => {
 				setError(err)
 			}
 		},
-
-		 
-
-		 
+			 
 		completeTodo: async (payload: Partial<Todo> & { id: number }) => {
 			const id = payload.id
             const originalValue = rawState.data.find(i => i.id === id)

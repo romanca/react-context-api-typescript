@@ -2,20 +2,21 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useLabelActions } from '../Hooks';
 import Icon from '../Icon/Icon';
- 
+import { useTodoState } from '../Hooks/useTodos';
 
 // TODO create error check for title if input is empty
 
 const LabelItemContainer = styled.div`
 	display: flex;
-	margin: 5px;
-	padding: 10px;
+	padding: 5px;
 	padding-top: 10px;
+	margin: 5px;
 	background: #2a2929;
 	:hover {
 		cursor: pointer;
-		background: #4caf50;
+		background: #2196f3;
 		border-radius: 5px;
+	}
 `;
 
 const LabelEditItemContainer = styled.div`
@@ -35,8 +36,7 @@ const LabelEditInput = styled.input`
 
 const TitleContainer = styled.div`
 	width: 100%;
-	padding-left: 15px;
-	font-size: 15px;
+	display: flex;
 `;
 
 const SaveButton = styled.button`
@@ -97,6 +97,19 @@ const DropDownFavoritesButton = styled.div`
 	padding: 5px;
 	margin: 2px;
 `;
+
+const Circle = styled.div`
+	width: 25px;
+	height: 25px;
+	line-height: 25px;
+	border-radius: 50%;
+	font-size: 15px;
+	color: black;
+	text-align: center;
+	background: #673ab7;
+	margin-right: 5px;
+`;
+
 interface IProps {
 	label: Label;
 	handleSelected: (label: Label) => void;
@@ -114,6 +127,8 @@ export const LabelItem: React.FC<IProps> = ({
 	const [value, setValue] = useState('');
 	const [visible, setVisible] = React.useState(false);
 	const { removeLabel, favoriteLabel } = useLabelActions();
+	const { todoList } = useTodoState();
+	const result = todoList.filter((i) => i.categoryId === label.id).length;
 
 	const handleOpenCloseMenu = () => {
 		setVisible((current) => !current);
@@ -151,49 +166,48 @@ export const LabelItem: React.FC<IProps> = ({
 	return (
 		<div>
 			{!open ? (
-					<LabelItemContainer>
-						<TitleContainer
-							onClick={() => handleSelected(label)}
-							style={{
-								fontWeight: isSelected ? 700 : undefined,
-							}}>
-							{label.title}
-						</TitleContainer>
+				<LabelItemContainer>
+					<TitleContainer
+						onClick={() => handleSelected(label)}
+						style={{
+							fontWeight: isSelected ? 700 : undefined,
+						}}>
+						<Circle>{result}</Circle>
+						{label.title}
+					</TitleContainer>
+					<div>
+						<MainButton onClick={handleOpenCloseMenu}>
+							<Icon name='dots' style={{ color: 'white' }} />
+						</MainButton>
 						<div>
-							<MainButton onClick={handleOpenCloseMenu}>
-								<Icon name='dots' style={{ color: 'white' }} />
-							</MainButton>
-							<div>
-								{visible ? (
-									<DropDownContainer>
-										<DropDownEditButton onClick={toggleLabel}>
-											<span style={{ width: '80%', color: 'black' }}>Edit</span>
-											<Icon name='edit' style={{ color: 'green' }} />
-										</DropDownEditButton>
-										<DropDownRemoveButton onClick={() => removeLabel(label.id)}>
-											<span style={{ width: '80%', color: 'black' }}>
-												Remove
-											</span>
-											<Icon name='remove' style={{ color: 'tomato' }} />
-										</DropDownRemoveButton>
-										<DropDownFavoritesButton
-											defaultChecked={label.favorite}
-											onClick={() => {
-												favoriteLabel(label);
-											}}>
-											{!label.favorite ? (
-												<div style={{ color: 'black' }}>Add to Favorites</div>
-											) : (
-												<div style={{ color: 'black' }}>
-													Remove from Favorites
-												</div>
-											)}
-										</DropDownFavoritesButton>
-									</DropDownContainer>
-								) : null}
-							</div>
+							{visible ? (
+								<DropDownContainer>
+									<DropDownEditButton onClick={toggleLabel}>
+										<span style={{ width: '80%', color: 'black' }}>Edit</span>
+										<Icon name='edit' style={{ color: 'green' }} />
+									</DropDownEditButton>
+									<DropDownRemoveButton onClick={() => removeLabel(label.id)}>
+										<span style={{ width: '80%', color: 'black' }}>Remove</span>
+										<Icon name='remove' style={{ color: 'tomato' }} />
+									</DropDownRemoveButton>
+									<DropDownFavoritesButton
+										defaultChecked={label.favorite}
+										onClick={() => {
+											favoriteLabel(label);
+										}}>
+										{!label.favorite ? (
+											<div style={{ color: 'black' }}>Add to Favorites</div>
+										) : (
+											<div style={{ color: 'black' }}>
+												Remove from Favorites
+											</div>
+										)}
+									</DropDownFavoritesButton>
+								</DropDownContainer>
+							) : null}
 						</div>
-					</LabelItemContainer>
+					</div>
+				</LabelItemContainer>
 			) : (
 				<LabelEditItemContainer>
 					<LabelEditInput type='text' value={value} onChange={handleChange} />

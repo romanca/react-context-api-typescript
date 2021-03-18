@@ -6,6 +6,25 @@ const useFilteredTodos = () => {
 	const todos = useTodosBySelectedLabel();
 	const [searchTerm, setSearchTerm] = React.useState('');
 
+	const completedTodos = () => {
+		return todos.filter((i) => i.complete).length;
+	};
+	const allTodos = () => {
+		return todos.map((i) => i).length;
+	};
+	const activeTodos = () => {
+		return todos.filter((i) => !i.complete).length;
+	};
+	const priorityLowTodos = () => {
+		return todos.filter((todo: Todo) => todo.priority === 'Low').length;
+	};
+	const priorityMediumTodos = () => {
+		return todos.filter((todo: Todo) => todo.priority === 'Medium').length;
+	};
+	const priorityHighTodos = () => {
+		return todos.filter((todo: Todo) => todo.priority === 'High').length;
+	};
+
 	const handleChange = (e: any) => {
 		setSearchTerm(e.target.value);
 	};
@@ -59,6 +78,12 @@ const useFilteredTodos = () => {
 		renderPriorityLowTodos,
 		renderPriorityMediumTodos,
 		renderPriorityHighTodos,
+		completedTodos,
+		allTodos,
+		activeTodos,
+		priorityLowTodos,
+		priorityMediumTodos,
+		priorityHighTodos,
 		handleChange,
 		searchTerm,
 	};

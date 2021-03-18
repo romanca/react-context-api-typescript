@@ -13,6 +13,14 @@ const ProjectsContainer = styled.div`
 	height: 20px;
 	font-weight: 700;
 `;
+const LabelConfirmDialogButton = styled.button`
+	border: none;
+	outline: none;
+	background: transparent;
+	cursor: pointer;
+	position: fixed;
+	margin-left: 18%;
+`;
 
 interface IProps {
 	visible?: boolean;
@@ -32,22 +40,11 @@ const ProjectsListMenuItem: React.FC<IProps> = () => {
 			<ProjectsContainer onClick={toggleProjects}>
 				{visible ? <Icon name='downArrow' /> : <Icon name='rightArrow' />}
 				<div style={{ position: 'fixed', marginLeft: 15 }}>Projects</div>
-				<button
-					onClick={openLabelConfirmDialog}
-					style={{
-						border: 'none',
-						outline: 'none',
-						background: 'transparent',
-						cursor: 'pointer',
-						position: 'fixed',
-						marginLeft: '18%',
-					}}>
+				<LabelConfirmDialogButton onClick={openLabelConfirmDialog}>
 					<Icon name='plus' style={{ fontWeight: 100, color: 'white' }} />
-				</button>
+				</LabelConfirmDialogButton>
 			</ProjectsContainer>
-			<SlideDown className={'my-dropdown-slidedown'}>
-				{visible ? <LabelList /> : ''}
-			</SlideDown>
+			<SlideDown>{visible ? <LabelList /> : ''}</SlideDown>
 		</div>
 	);
 };

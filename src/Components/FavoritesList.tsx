@@ -1,10 +1,10 @@
-
 import { LabelItem } from './LabelItem';
 import { useLabelState, useLabelActions } from '../Hooks/useLabels';
 
 const Favorites = () => {
 	const { labels, selectedLabel } = useLabelState();
 	const { setSelectedLabel, editLabel } = useLabelActions();
+
 	return (
 		<div>
 			{labels
