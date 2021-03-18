@@ -6,6 +6,7 @@ import Search from './Search';
 import FavoritesMenuItem from './SideBarComponents/FavoritesMenuItem';
 import LabelListMenuItem from './SideBarComponents/ProjectsListMenuItem';
 import FiltersMenuItem from './SideBarComponents/FiltersMenuItem';
+import useLayout from '../Hooks/useLayout';
 
 const Header = styled.header`
 	padding: 2px;
@@ -32,40 +33,8 @@ const MainContent = styled.div`
 `;
 
 const Layout = () => {
-	const [valueSelect, setValueSelect] = React.useState('all');
-	const {
-		renderCompletedTodos,
-		renderAllTodos,
-		renderActiveTodos,
-		renderPriorityLowTodos,
-		renderPriorityMediumTodos,
-		renderPriorityHighTodos,
-		handleChange,
-		searchTerm,
-	} = useFilteredTodos();
-
-	const toggleContent = (e: any) => {
-		setValueSelect(e.target.value);
-	};
-
-	const switchContent = (value: any) => {
-		switch (value) {
-			case 'completed':
-				return <div>{renderCompletedTodos()}</div>;
-			case 'all':
-				return <div>{renderAllTodos()}</div>;
-			case 'active':
-				return <div>{renderActiveTodos()}</div>;
-			case 'priorityLow':
-				return <div>{renderPriorityLowTodos()}</div>;
-			case 'priorityMiddle':
-				return <div>{renderPriorityMediumTodos()}</div>;
-			case 'priorityHigh':
-				return <div>{renderPriorityHighTodos()}</div>;
-			default:
-				return null;
-		}
-	};
+	const { valueSelect, toggleContent, switchContent } = useLayout();
+	const { handleChange, searchTerm } = useFilteredTodos();
 
 	return (
 		<div>
